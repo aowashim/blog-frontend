@@ -1,22 +1,115 @@
-import React from 'react'
-import { View } from 'react-native'
-import { Text } from 'react-native-paper'
+import {
+  NavigationContainer,
+  DarkTheme as NavDarkTheme,
+  DefaultTheme as NavDefaultTheme,
+} from '@react-navigation/native'
+import {
+  Provider as PaperProvider,
+  DarkTheme as PaperDarkTheme,
+  DefaultTheme as PaperDefaultTheme,
+} from 'react-native-paper'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
+import { StatusBar } from 'expo-status-bar'
+import Home from './src/screens/Home'
+import Profile from './src/screens/Profile'
+import { useColorScheme } from 'react-native'
+
+const MyDarkThemeNav = {
+  ...NavDarkTheme,
+  dark: true,
+  colors: {
+    ...NavDarkTheme.colors,
+    primary: '#d5e0da',
+    //background: '#101c1c',
+    //card: '#162626',
+  },
+}
+
+const MyDarkThemePaper = {
+  ...PaperDarkTheme,
+  dark: true,
+  colors: {
+    ...PaperDarkTheme.colors,
+    primary: '#d99800',
+    //accent: '#26373d',
+    //background: 'rgba(0, 0, 0, 0.3)',
+  },
+}
+
+const MyDefaultThemePaper = {
+  ...PaperDefaultTheme,
+  //roundness: 20,
+}
+
+const HomeStack = createNativeStackNavigator()
+const ProfileStack = createNativeStackNavigator()
+const Tab = createBottomTabNavigator()
+
+const HomeStackScreen = () => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name='HomeS' component={Home} />
+    </HomeStack.Navigator>
+  )
+}
+
+const ProfileStackScreen = () => {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen name='ProfileS' component={Profile} />
+    </ProfileStack.Navigator>
+  )
+}
 
 const App = () => {
+  //const scheme = useColorScheme()
+  const scheme = 'dark'
+
   return (
-    <View>
-      <Text>
-        Hi.. Eat
-        node_modules\react-native\Libraries\BatchedBridge\MessageQueue.js:388:6
-        in __callImmediates at
-        node_modules\react-native\Libraries\BatchedBridge\MessageQueue.js:132:6
-        in __guard$argument_0 at
-        node_modules\react-native\Libraries\BatchedBridge\MessageQueue.js:365:10
-        in __guard at
-        node_modules\react-native\Libraries\BatchedBridge\MessageQueue.js:131:4
-        in flushedQueuexpo
-      </Text>
-    </View>
+    <NavigationContainer
+      theme={scheme === 'dark' ? MyDarkThemeNav : NavDefaultTheme}
+    >
+      <PaperProvider
+        theme={scheme === 'dark' ? MyDarkThemePaper : MyDefaultThemePaper}
+      >
+        <StatusBar
+          //backgroundColor={scheme === 'dark' ? '#18241e' : '#ffffff'}
+          style={scheme === 'dark' ? 'light' : 'dark'}
+        />
+        <Tab.Navigator
+          // backBehavior={{ initialRoute: true }}
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName
+
+              if (route.name === 'Home') {
+                iconName = focused ? 'home' : 'home-outline'
+                return (
+                  <MaterialCommunityIcons
+                    name={iconName}
+                    size={30}
+                    color={color}
+                  />
+                )
+              } else if (route.name === 'Profile') {
+                iconName = focused ? 'user' : 'user-o'
+                return <FontAwesome name={iconName} size={size} color={color} />
+              }
+            },
+            headerShown: false,
+          })}
+        >
+          <Tab.Screen name='Home' component={HomeStackScreen} />
+          <Tab.Screen
+            name='Profile'
+            //options={{ unmountOnBlur: true }}
+            component={ProfileStackScreen}
+          />
+        </Tab.Navigator>
+      </PaperProvider>
+    </NavigationContainer>
   )
 }
 
