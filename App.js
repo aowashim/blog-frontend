@@ -32,9 +32,9 @@ const MyDarkThemePaper = {
   dark: true,
   colors: {
     ...PaperDarkTheme.colors,
-    primary: '#d99800',
+    primary: '#10614e',
     //accent: '#26373d',
-    //background: 'rgba(0, 0, 0, 0.3)',
+    //background: '#181c1c',
   },
 }
 
