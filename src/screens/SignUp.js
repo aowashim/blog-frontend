@@ -1,24 +1,27 @@
 import { ScrollView, View } from 'react-native'
-import { Avatar, Button, Headline, Text, TextInput } from 'react-native-paper'
+import { Avatar, Button, Text, TextInput } from 'react-native-paper'
 import { Formik } from 'formik'
 import { signUpValidation } from '../helpers/yupValidation'
 import { globalStyles } from '../helpers/globalStyles'
+import { registerUser } from '../helpers/callApi'
 
 const SignUp = props => {
+  const handleSignUp = async values => {
+    const data = await registerUser(values)
+    console.log(data)
+  }
+
   return (
     <ScrollView style={{ marginHorizontal: 10, marginVertical: 10 }}>
       <View style={globalStyles.avatar}>
         <Avatar.Icon size={60} icon='account-edit' color='orange' />
       </View>
-      {/* <Headline style={{ textAlign: 'center', marginBottom: 15 }}>
-        Sign Up
-      </Headline> */}
       <Formik
         initialValues={{ email: '', pwrd: '', name: '', city: '', state: '' }}
         validationSchema={signUpValidation}
         onSubmit={(values, action) => {
-          console.log(values)
-          action.resetForm()
+          handleSignUp(values)
+          //action.resetForm()
         }}
       >
         {({
