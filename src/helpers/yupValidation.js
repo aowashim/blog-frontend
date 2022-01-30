@@ -12,15 +12,17 @@ export const signInValidation = yup.object({
     .max(16, 'Password must be atmost 16 characters.'),
 })
 
-export const signInValidation11 = yup.object({
-  altPhone: yup
+export const signUpValidation = yup.object({
+  email: yup
     .string()
-    .matches(/^[0-9]+$/, 'Must be only digits')
-    .length(10, 'Must be exactly 10 digits'),
-  pin: yup
+    .email('The email is not valid.')
+    .required('Email is required.'),
+  pwrd: yup
     .string()
-    .required('Pin code is required')
-    .matches(/^[0-9]+$/, 'Must be only digits')
-    .min(6, 'Must be exactly 6 digits')
-    .max(6, 'Must be exactly 6 digits'),
+    .required('Password is required.')
+    .min(8, 'Password must be atleast 8 characters.')
+    .max(16, 'Password must be atmost 16 characters.'),
+  name: yup.string().required('Name is required.'),
+  city: yup.string().required('City is required.'),
+  state: yup.string().required('State is required.'),
 })

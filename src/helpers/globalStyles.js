@@ -14,4 +14,10 @@ export const globalStyles = StyleSheet.create({
   textIn: {
     marginBottom: 20,
   },
+  avatar: {
+    flex: 1,
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 10,
+  },
 })

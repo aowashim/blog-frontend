@@ -1,18 +1,25 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
-import { Avatar, Button, Headline, Text, TextInput } from 'react-native-paper'
+import {
+  Avatar,
+  Button,
+  Headline,
+  Subheading,
+  Text,
+  TextInput,
+} from 'react-native-paper'
 import { Formik } from 'formik'
 import { signInValidation } from '../helpers/yupValidation'
 import { globalStyles } from '../helpers/globalStyles'
 
-const SignIn = () => {
+const SignIn = props => {
   return (
     <ScrollView style={{ marginHorizontal: 10, marginVertical: 10 }}>
-      <View style={styles.avatar}>
-        <Avatar.Icon size={60} icon='key' />
+      <View style={globalStyles.avatar}>
+        <Avatar.Icon size={60} icon='login' color='orange' />
       </View>
-      <Headline style={{ textAlign: 'center', marginBottom: 15 }}>
+      {/* <Headline style={{ textAlign: 'center', marginBottom: 15 }}>
         Sign In
-      </Headline>
+      </Headline> */}
       <Formik
         initialValues={{ email: '', pwrd: '' }}
         validationSchema={signInValidation}
@@ -60,12 +67,22 @@ const SignIn = () => {
               )}
             </View>
 
-            <Button onPress={handleSubmit} mode='contained'>
+            <Button onPress={handleSubmit} mode='contained' icon='login'>
               Sign In
             </Button>
           </View>
         )}
       </Formik>
+      <Subheading style={{ textAlign: 'center', marginTop: 40 }}>
+        Don't have an account?
+      </Subheading>
+      <Button
+        onPress={() => props.navigation.navigate('SignUp')}
+        color='orange'
+        icon='account-edit'
+      >
+        Create Now
+      </Button>
     </ScrollView>
   )
 }

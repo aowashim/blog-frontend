@@ -8,13 +8,13 @@ import {
   DarkTheme as PaperDarkTheme,
   DefaultTheme as PaperDefaultTheme,
 } from 'react-native-paper'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
 import Home from './src/screens/Home'
-import Profile from './src/screens/Profile'
 import { useColorScheme } from 'react-native'
+import ProfileStackScreen from './src/components/ProfileStackScreen'
 
 const MyDarkThemeNav = {
   ...NavDarkTheme,
@@ -43,8 +43,7 @@ const MyDefaultThemePaper = {
   //roundness: 20,
 }
 
-const HomeStack = createNativeStackNavigator()
-const ProfileStack = createNativeStackNavigator()
+const HomeStack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const HomeStackScreen = () => {
@@ -52,14 +51,6 @@ const HomeStackScreen = () => {
     <HomeStack.Navigator>
       <HomeStack.Screen name='HomeS' component={Home} />
     </HomeStack.Navigator>
-  )
-}
-
-const ProfileStackScreen = () => {
-  return (
-    <ProfileStack.Navigator>
-      <ProfileStack.Screen name='ProfileS' component={Profile} />
-    </ProfileStack.Navigator>
   )
 }
 
