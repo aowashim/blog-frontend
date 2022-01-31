@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { SERVER } from '@env'
+//import { SERVER } from '@env'
+
+const SERVER = 'http://10.55.12.133:5000'
 
 export const registerUser = async values => {
   const res = { data: '', status: 200 }
@@ -8,8 +10,9 @@ export const registerUser = async values => {
       email: values.email,
       name: values.name,
       city: values.city,
-      state: values.state,
+      about: values.about,
       pwrd: values.pwrd,
+      dp: values.dp,
     })
 
     res.data = val.data.token

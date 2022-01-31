@@ -63,7 +63,12 @@ const SignIn = props => {
               )}
             </View>
 
-            <Button onPress={handleSubmit} mode='contained' icon='login'>
+            <Button
+              onPress={handleSubmit}
+              mode='contained'
+              icon='login'
+              style={{ marginTop: 10 }}
+            >
               Sign In
             </Button>
           </View>

@@ -24,5 +24,8 @@ export const signUpValidation = yup.object({
     .max(16, 'Password must be atmost 16 characters.'),
   name: yup.string().required('Name is required.'),
   city: yup.string().required('City is required.'),
-  state: yup.string().required('State is required.'),
+  about: yup
+    .string()
+    .required('About is required.')
+    .max(200, 'Must be less than 200 characters.'),
 })
