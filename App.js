@@ -85,8 +85,14 @@ const App = () => {
                   />
                 )
               } else if (route.name === 'Profile') {
-                iconName = focused ? 'user' : 'user-o'
-                return <FontAwesome name={iconName} size={size} color={color} />
+                iconName = focused ? 'account' : 'account-outline'
+                return (
+                  <MaterialCommunityIcons
+                    name={iconName}
+                    size={30}
+                    color={color}
+                  />
+                )
               }
             },
             headerShown: false,

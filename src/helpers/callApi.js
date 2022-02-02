@@ -7,17 +7,18 @@ export const registerUser = async values => {
   const res = { data: '', status: 200 }
   try {
     const val = await axios.post(`${SERVER}/user/signup`, {
-      email: values.email,
+      userName: values.userName,
       name: values.name,
       city: values.city,
       about: values.about,
       pwrd: values.pwrd,
-      dp: values.dp,
+      dp: values.dpUri,
     })
 
     res.data = val.data.token
     res.status = val.status
   } catch (error) {
+    res.data = error.message
     res.status = error.response.status
   }
 
@@ -35,6 +36,22 @@ export const userSignIn = async values => {
     res.data = val.data.token
     res.status = val.status
   } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
+}
+
+export const checkUser = async un => {
+  const res = { data: '', status: 200 }
+  try {
+    const val = await axios.get(`${SERVER}/user/check?un=${un}`)
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
     res.status = error.response.status
   }
 

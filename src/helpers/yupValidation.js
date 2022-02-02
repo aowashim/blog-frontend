@@ -1,10 +1,12 @@
 import * as yup from 'yup'
 
 export const signInValidation = yup.object({
-  email: yup
+  userName: yup
     .string()
-    .email('The email is not valid.')
-    .required('Email is required.'),
+    .required('Username is required.')
+    .matches(/^[a-z0-9]+$/i, 'Only alphanumeric characters are allowed.')
+    .min(4, 'Username must be atleast 4 characters.')
+    .max(15, 'Username must be less than 15 characters.'),
   pwrd: yup
     .string()
     .required('Password is required.')
@@ -13,10 +15,12 @@ export const signInValidation = yup.object({
 })
 
 export const signUpValidation = yup.object({
-  email: yup
+  userName: yup
     .string()
-    .email('The email is not valid.')
-    .required('Email is required.'),
+    .required('Username is required.')
+    .matches(/^[a-z0-9]+$/i, 'Only alphanumeric characters are allowed.')
+    .min(4, 'Username must be atleast 4 characters.')
+    .max(15, 'Username must be less than 15 characters.'),
   pwrd: yup
     .string()
     .required('Password is required.')

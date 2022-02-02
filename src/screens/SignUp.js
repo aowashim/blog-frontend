@@ -1,27 +1,39 @@
-import { ScrollView, View } from 'react-native'
-import { Avatar, Button, IconButton, Text, TextInput } from 'react-native-paper'
+import { ScrollView, ToastAndroid, View } from 'react-native'
+import { Avatar, Button, Text, TextInput } from 'react-native-paper'
 import { Formik } from 'formik'
 import { signUpValidation } from '../helpers/yupValidation'
 import { globalStyles } from '../helpers/globalStyles'
-import { registerUser } from '../helpers/callApi'
+import { checkUser, registerUser } from '../helpers/callApi'
 import MyModal from '../components/MyModal'
 import { useState } from 'react'
 import { pickImage } from '../helpers/pickImage'
 import { uploadToCloud } from '../helpers/uploadToCloud'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import Loading from '../components/Loading'
 
 const SignUp = props => {
   const [modalPicImage, setModalPicImage] = useState(false)
+  const [usernameChecked, setUsernameChecked] = useState(false)
+  const [signingUp, setSigningUp] = useState(false)
   const [dp, setDp] = useState('')
 
   const handleSignUp = async values => {
-    const data = await uploadToCloud(dp)
-    if (data[0]) {
-      const res = await registerUser({ ...values, dp: data[1] })
-      console.log(res)
-    } else {
-      console.log('Sign up failed...')
+    setSigningUp(true)
+    let dpUri = ''
+    if (dp) {
+      const data = await uploadToCloud(dp)
+      if (!data[0]) {
+        console.log('Sign up failed...')
+        return
+      } else {
+        dpUri = data[1]
+      }
     }
+
+    const res = await registerUser({ ...values, dpUri })
+    console.log(res)
+    setSigningUp(false)
+    setUsernameChecked(false)
   }
 
   const handleImage = async (val, isDp) => {
@@ -33,7 +45,29 @@ const SignUp = props => {
     }
   }
 
-  return (
+  const handleCheckUser = async val => {
+    if (val) {
+      const data = await checkUser(val)
+      if (data.status === 200) {
+        setUsernameChecked(true)
+        ToastAndroid.show(
+          'Username available, please proceed...',
+          ToastAndroid.LONG
+        )
+      } else {
+        ToastAndroid.show(
+          'Username already taken, please try with a different username.',
+          ToastAndroid.LONG
+        )
+      }
+    } else {
+      ToastAndroid.show('Please enter an username.', ToastAndroid.SHORT)
+    }
+  }
+
+  return signingUp ? (
+    <Loading txt='Signing up...' />
+  ) : (
     <ScrollView style={{ marginHorizontal: 10, marginVertical: 10 }}>
       <View style={globalStyles.avatar}>
         <TouchableOpacity
@@ -54,10 +88,23 @@ const SignUp = props => {
       </View>
 
       <Formik
-        initialValues={{ email: '', pwrd: '', name: '', city: '', about: '' }}
+        initialValues={{
+          userName: '',
+          pwrd: '',
+          name: '',
+          city: '',
+          about: '',
+        }}
         validationSchema={signUpValidation}
         onSubmit={(values, action) => {
-          handleSignUp(values)
+          if (usernameChecked) {
+            handleSignUp(values)
+          } else {
+            ToastAndroid.show(
+              'Please check username before signing up.',
+              ToastAndroid.LONG
+            )
+          }
           //action.resetForm()
         }}
       >
@@ -72,18 +119,30 @@ const SignUp = props => {
           <View>
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Email'
-                placeholder='Enter your email...'
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
+                label='Username'
+                placeholder='Enter your username...'
+                disabled={usernameChecked ? true : false}
+                onChangeText={handleChange('userName')}
+                onBlur={handleBlur('userName')}
+                value={values.userName}
               />
-              {errors.email && (
+              {errors.userName && touched.userName && (
                 <Text style={globalStyles.errorText}>
-                  {touched.email && errors.email}
+                  {touched.userName && errors.userName}
                 </Text>
               )}
             </View>
+
+            {!usernameChecked && (
+              <Button
+                color='orange'
+                icon='checkbox-marked-circle-outline'
+                disabled={errors.userName ? true : false}
+                onPress={() => handleCheckUser(values.userName)}
+              >
+                Check username
+              </Button>
+            )}
 
             <View style={globalStyles.textIn}>
               <TextInput
@@ -93,7 +152,7 @@ const SignUp = props => {
                 onBlur={handleBlur('pwrd')}
                 value={values.pwrd}
               />
-              {errors.pwrd && (
+              {errors.pwrd && touched.pwrd && (
                 <Text style={globalStyles.errorText}>
                   {touched.pwrd && errors.pwrd}
                 </Text>
@@ -108,7 +167,7 @@ const SignUp = props => {
                 onBlur={handleBlur('name')}
                 value={values.name}
               />
-              {errors.name && (
+              {errors.name && touched.name && (
                 <Text style={globalStyles.errorText}>
                   {touched.name && errors.name}
                 </Text>
@@ -123,7 +182,7 @@ const SignUp = props => {
                 onBlur={handleBlur('city')}
                 value={values.city}
               />
-              {errors.city && (
+              {errors.city && touched.city && (
                 <Text style={globalStyles.errorText}>
                   {touched.city && errors.city}
                 </Text>
@@ -139,7 +198,7 @@ const SignUp = props => {
                 onBlur={handleBlur('about')}
                 value={values.about}
               />
-              {errors.about && (
+              {errors.about && touched.about && (
                 <Text style={globalStyles.errorText}>
                   {touched.about && errors.about}
                 </Text>

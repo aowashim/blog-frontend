@@ -4,20 +4,28 @@ import { Formik } from 'formik'
 import { signInValidation } from '../helpers/yupValidation'
 import { globalStyles } from '../helpers/globalStyles'
 import { userSignIn } from '../helpers/callApi'
+import Loading from '../components/Loading'
+import { useState } from 'react'
 
 const SignIn = props => {
+  const [signingIn, setSigningIn] = useState(false)
+
   const handleSignIn = async values => {
+    setSigningIn(true)
     const data = await userSignIn(values)
     console.log(data)
+    setSigningIn(false)
   }
 
-  return (
+  return signingIn ? (
+    <Loading txt='Signing In...' />
+  ) : (
     <ScrollView style={{ marginHorizontal: 10, marginVertical: 10 }}>
       <View style={globalStyles.avatar}>
         <Avatar.Icon size={60} icon='login' color='orange' />
       </View>
       <Formik
-        initialValues={{ email: '', pwrd: '' }}
+        initialValues={{ userName: '', pwrd: '' }}
         validationSchema={signInValidation}
         onSubmit={(values, action) => {
           handleSignIn(values)
@@ -35,15 +43,15 @@ const SignIn = props => {
           <View>
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Email'
-                placeholder='Enter your email...'
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
+                label='Username'
+                placeholder='Enter your username...'
+                onChangeText={handleChange('userName')}
+                onBlur={handleBlur('userName')}
+                value={values.userName}
               />
-              {errors.email && (
+              {errors.userName && (
                 <Text style={globalStyles.errorText}>
-                  {touched.email && errors.email}
+                  {touched.userName && errors.userName}
                 </Text>
               )}
             </View>
