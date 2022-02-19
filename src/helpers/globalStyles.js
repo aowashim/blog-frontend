@@ -5,7 +5,6 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     marginHorizontal: 10,
-    marginTop: 20,
   },
   errorText: {
     color: '#ba0b0b',

@@ -68,11 +68,12 @@ const SignUp = props => {
   return signingUp ? (
     <Loading txt='Signing up...' />
   ) : (
-    <ScrollView style={{ marginHorizontal: 10, marginVertical: 10 }}>
+    <ScrollView style={{ marginHorizontal: 10 }}>
       <View style={globalStyles.avatar}>
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => setModalPicImage(true)}
+          style={{ marginTop: 10 }}
         >
           {dp ? (
             <Avatar.Image size={100} source={{ uri: dp }} />
@@ -209,7 +210,7 @@ const SignUp = props => {
               onPress={handleSubmit}
               mode='contained'
               icon='account-arrow-right'
-              style={{ marginTop: 10 }}
+              style={{ marginTop: 10, marginBottom: 10 }}
             >
               Sign Up
             </Button>
