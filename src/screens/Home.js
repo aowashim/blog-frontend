@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
-import { Button, Headline, Paragraph, Text } from 'react-native-paper'
+import { Button } from 'react-native-paper'
 import ListFooter from '../components/ListFooter'
 import Post from '../components/Post'
 import { getAllPost } from '../helpers/callApi'
@@ -22,7 +22,7 @@ const Home = () => {
     const res = await getAllPost(lastPost.current)
 
     if (res.status !== 400) {
-      lastPost.current = res.data[9].pid
+      lastPost.current = res.data[res.data.length - 1].pid
       if (isPulled) {
         posts.current = res.data
         morePost.current = true
@@ -35,6 +35,8 @@ const Home = () => {
       setRefresh(!refresh)
     }
   }
+
+  const handleBookMark = id => {}
 
   const handleRefresh = async () => {
     setPull(true)
