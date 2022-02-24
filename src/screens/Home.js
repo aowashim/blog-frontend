@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, FlatList } from 'react-native'
+import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
 import { Button } from 'react-native-paper'
 import ListFooter from '../components/ListFooter'
 import Post from '../components/Post'
-import { getAllPost } from '../helpers/callApi'
+import { addBookMark, getAllPost, rmvBookMark } from '../helpers/callApi'
 
 const Home = () => {
   const posts = useRef([])
@@ -36,7 +36,38 @@ const Home = () => {
     }
   }
 
-  const handleBookMark = id => {}
+  const changePostData = (index, bm) => {
+    posts.current[index].bm = bm
+    setRefresh(!refresh)
+
+    if (bm) {
+      ToastAndroid.show('Added to bookmark', ToastAndroid.SHORT)
+    } else {
+      ToastAndroid.show('Removed from bookmark', ToastAndroid.SHORT)
+    }
+  }
+
+  const handleBookMark = async (id, bm, index) => {
+    if (Boolean(bm)) {
+      const status = await rmvBookMark(
+        id,
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFvd2FzaGltIiwiaWF0IjoxNjQ1NjM5OTE3fQ.I64d_WHgbe8U_zvGq_wsCdl9spHEf81ZVAEvig0S43s'
+      )
+
+      if (status === 200) {
+        changePostData(index, 0)
+      }
+    } else {
+      const status = await addBookMark(
+        id,
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFvd2FzaGltIiwiaWF0IjoxNjQ1NjM5OTE3fQ.I64d_WHgbe8U_zvGq_wsCdl9spHEf81ZVAEvig0S43s'
+      )
+
+      if (status === 200) {
+        changePostData(index, 1)
+      }
+    }
+  }
 
   const handleRefresh = async () => {
     setPull(true)
@@ -47,7 +78,13 @@ const Home = () => {
   }
 
   const renderItem = itemData => {
-    return <Post item={itemData.item} />
+    return (
+      <Post
+        item={itemData.item}
+        handleBookMark={handleBookMark}
+        index={itemData.index}
+      />
+    )
   }
 
   return posts.current.length ? (

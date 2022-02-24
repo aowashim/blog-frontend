@@ -2,7 +2,7 @@ import { Image, TouchableOpacity, View } from 'react-native'
 import { Avatar, Headline, Paragraph, Text } from 'react-native-paper'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-const Post = ({ item }) => {
+const Post = ({ item, handleBookMark, index }) => {
   return (
     <View
       style={{
@@ -38,11 +38,16 @@ const Post = ({ item }) => {
             marginRight: 10,
             paddingHorizontal: 10,
           }}
+          onPress={() => handleBookMark(item.pid, item.bm, index)}
         >
           <MaterialCommunityIcons
-            name={Boolean(item.bm) ? 'bookmark' : 'bookmark-outline'}
-            size={28}
-            color='orange'
+            name={
+              Boolean(item.bm)
+                ? 'bookmark-multiple'
+                : 'bookmark-multiple-outline'
+            }
+            size={24}
+            color='#2c7273'
           />
         </TouchableOpacity>
       </View>

@@ -1,7 +1,7 @@
 import axios from 'axios'
 //import { SERVER } from '@env'
 
-const SERVER = 'http://10.55.14.195:5000'
+const SERVER = 'http://10.55.11.125:5000'
 
 export const registerUser = async values => {
   const res = { data: '', status: 200 }
@@ -71,4 +71,43 @@ export const getAllPost = async lastPost => {
   }
 
   return res
+}
+
+export const addBookMark = async (pid, token) => {
+  try {
+    const val = await axios.post(
+      `${SERVER}/bookmark/`,
+      {
+        pid,
+      },
+      {
+        headers: {
+          'x-auth-token': token,
+        },
+      }
+    )
+    return val.status
+  } catch (error) {
+    return error.response.status
+  }
+}
+
+export const rmvBookMark = async (pid, token) => {
+  try {
+    const val = await axios.delete(
+      `${SERVER}/bookmark/`,
+
+      {
+        headers: {
+          'x-auth-token': token,
+        },
+        data: {
+          pid,
+        },
+      }
+    )
+    return val.status
+  } catch (error) {
+    return error.response.status
+  }
 }
