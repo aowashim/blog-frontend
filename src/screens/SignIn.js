@@ -49,7 +49,7 @@ const SignIn = props => {
                 onBlur={handleBlur('userName')}
                 value={values.userName}
               />
-              {errors.userName && (
+              {errors.userName && touched.userName && (
                 <Text style={globalStyles.errorText}>
                   {touched.userName && errors.userName}
                 </Text>
@@ -64,7 +64,7 @@ const SignIn = props => {
                 onBlur={handleBlur('pwrd')}
                 value={values.pwrd}
               />
-              {errors.pwrd && (
+              {errors.pwrd && touched.pwrd && (
                 <Text style={globalStyles.errorText}>
                   {touched.pwrd && errors.pwrd}
                 </Text>

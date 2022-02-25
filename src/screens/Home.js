@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
-import { Button } from 'react-native-paper'
+import { Button, FAB } from 'react-native-paper'
 import ListFooter from '../components/ListFooter'
 import Post from '../components/Post'
 import { addBookMark, getAllPost, rmvBookMark } from '../helpers/callApi'
 
-const Home = () => {
+const Home = props => {
   const posts = useRef([])
   const morePost = useRef(true)
   const [pull, setPull] = useState(false)
@@ -99,6 +99,12 @@ const Home = () => {
         onRefresh={handleRefresh}
         refreshing={pull}
       />
+
+      <FAB
+        style={styles.fab}
+        icon='pen-plus'
+        onPress={() => props.navigation.navigate('Post')}
+      />
     </View>
   ) : (
     <View style={styles.container}>
@@ -110,6 +116,12 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 0,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 })
 

@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import { signUpValidation } from '../helpers/yupValidation'
 import { globalStyles } from '../helpers/globalStyles'
 import { checkUser, registerUser } from '../helpers/callApi'
-import MyModal from '../components/MyModal'
+import ImagePicker from '../components/ImagePicker'
 import { useState } from 'react'
 import { pickImage } from '../helpers/pickImage'
 import { uploadToCloud } from '../helpers/uploadToCloud'
@@ -36,9 +36,9 @@ const SignUp = props => {
     setUsernameChecked(false)
   }
 
-  const handleImage = async (val, isDp) => {
+  const handleImage = async val => {
     setModalPicImage(false)
-    const imgUri = await pickImage(val, isDp)
+    const imgUri = await pickImage(val, true)
 
     if (imgUri) {
       setDp(imgUri)
@@ -218,35 +218,11 @@ const SignUp = props => {
         )}
       </Formik>
 
-      <MyModal
+      <ImagePicker
         visible={modalPicImage}
-        onPress={() => setModalPicImage(false)}
-        onRequestClose={() => setModalPicImage(false)}
-      >
-        <Button
-          style={{ marginTop: 5 }}
-          icon='camera'
-          color='white'
-          onPress={() => handleImage('c', true)}
-        >
-          camera
-        </Button>
-        <Button
-          icon='folder-image'
-          color='white'
-          onPress={() => handleImage('g', true)}
-        >
-          gallery
-        </Button>
-        <Button
-          style={{ marginBottom: 10 }}
-          icon='cancel'
-          color='white'
-          onPress={() => setModalPicImage(false)}
-        >
-          Cancel
-        </Button>
-      </MyModal>
+        handleImage={handleImage}
+        closeModal={() => setModalPicImage(false)}
+      />
     </ScrollView>
   )
 }

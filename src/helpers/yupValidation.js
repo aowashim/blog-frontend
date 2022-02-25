@@ -33,3 +33,13 @@ export const signUpValidation = yup.object({
     .required('About is required.')
     .max(200, 'Must be less than 200 characters.'),
 })
+
+export const postValidation = yup.object({
+  title: yup
+    .string()
+    .required('Title is required.')
+    .max(50, 'Title must be less than 50 characters.'),
+  description: yup
+    .string()
+    .max(500, 'Description must be less than 500 characters.'),
+})

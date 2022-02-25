@@ -10,11 +10,12 @@ import {
 } from 'react-native-paper'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
 import Home from './src/screens/Home'
 import { useColorScheme } from 'react-native'
 import ProfileStackScreen from './src/components/ProfileStackScreen'
+import CreatePost from './src/screens/CreatePost'
 
 const MyDarkThemeNav = {
   ...NavDarkTheme,
@@ -32,7 +33,8 @@ const MyDarkThemePaper = {
   dark: true,
   colors: {
     ...PaperDarkTheme.colors,
-    primary: '#10614e',
+    // primary: '#10614e',
+    primary: '#2c7273',
     //accent: '#26373d',
     background: 'black',
   },
@@ -50,6 +52,7 @@ const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name='HomeS' component={Home} />
+      <HomeStack.Screen name='Post' component={CreatePost} />
     </HomeStack.Navigator>
   )
 }

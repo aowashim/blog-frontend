@@ -1,8 +1,9 @@
 import { useContext } from 'react'
 import { Modal, Pressable, View } from 'react-native'
+import { Button } from 'react-native-paper'
 //import AppContext from '../store/AppContext'
 
-const MyModal = props => {
+const ImagePicker = props => {
   //const [scheme] = useContext(AppContext)
   const scheme = 'dark'
 
@@ -11,11 +12,11 @@ const MyModal = props => {
       animationType='slide'
       transparent={true}
       visible={props.visible}
-      onRequestClose={props.onRequestClose}
+      onRequestClose={props.closeModal}
       style={{ backgroundColor: 'black' }}
     >
       <Pressable
-        onPress={props.onPress}
+        onPress={props.closeModal}
         style={{
           backgroundColor:
             scheme === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(31, 31, 31, 0.4)',
@@ -35,10 +36,32 @@ const MyModal = props => {
           paddingBottom: 5,
         }}
       >
-        {props.children}
+        <Button
+          style={{ marginTop: 5 }}
+          icon='camera'
+          color='white'
+          onPress={() => props.handleImage('c')}
+        >
+          camera
+        </Button>
+        <Button
+          icon='folder-image'
+          color='white'
+          onPress={() => props.handleImage('g')}
+        >
+          gallery
+        </Button>
+        <Button
+          style={{ marginBottom: 10 }}
+          icon='cancel'
+          color='white'
+          onPress={props.closeModal}
+        >
+          Cancel
+        </Button>
       </View>
     </Modal>
   )
 }
 
-export default MyModal
+export default ImagePicker
