@@ -16,6 +16,9 @@ import Home from './src/screens/Home'
 import { useColorScheme } from 'react-native'
 import ProfileStackScreen from './src/components/ProfileStackScreen'
 import CreatePost from './src/screens/CreatePost'
+import UserContext from './src/store/UserContext'
+import { useEffect, useMemo, useState } from 'react'
+import { getData } from './src/helpers/asyncStorage'
 
 const MyDarkThemeNav = {
   ...NavDarkTheme,
@@ -23,7 +26,7 @@ const MyDarkThemeNav = {
   colors: {
     ...NavDarkTheme.colors,
     primary: '#d5e0da',
-    //background: '#101c1c',
+    background: '#0e0f0f',
     //card: '#162626',
   },
 }
@@ -60,6 +63,20 @@ const HomeStackScreen = () => {
 const App = () => {
   //const scheme = useColorScheme()
   const scheme = 'dark'
+  const [userToken, setUserToken] = useState('')
+
+  useEffect(() => {
+    checkUser()
+  }, [])
+
+  const checkUser = async () => {
+    const res = await getData('userToken')
+
+    if (!res) return
+    setUserToken(res)
+  }
+
+  const userInfo = useMemo(() => ({ userToken, setUserToken }), [userToken])
 
   return (
     <NavigationContainer
@@ -72,42 +89,44 @@ const App = () => {
           //backgroundColor={scheme === 'dark' ? '#18241e' : '#ffffff'}
           style={scheme === 'dark' ? 'light' : 'dark'}
         />
-        <Tab.Navigator
-          // backBehavior={{ initialRoute: true }}
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName
+        <UserContext.Provider value={userInfo}>
+          <Tab.Navigator
+            // backBehavior={{ initialRoute: true }}
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName
 
-              if (route.name === 'Home') {
-                iconName = focused ? 'home' : 'home-outline'
-                return (
-                  <MaterialCommunityIcons
-                    name={iconName}
-                    size={30}
-                    color={color}
-                  />
-                )
-              } else if (route.name === 'Profile') {
-                iconName = focused ? 'account' : 'account-outline'
-                return (
-                  <MaterialCommunityIcons
-                    name={iconName}
-                    size={30}
-                    color={color}
-                  />
-                )
-              }
-            },
-            headerShown: false,
-          })}
-        >
-          <Tab.Screen name='Home' component={HomeStackScreen} />
-          <Tab.Screen
-            name='Profile'
-            //options={{ unmountOnBlur: true }}
-            component={ProfileStackScreen}
-          />
-        </Tab.Navigator>
+                if (route.name === 'Home') {
+                  iconName = focused ? 'home' : 'home-outline'
+                  return (
+                    <MaterialCommunityIcons
+                      name={iconName}
+                      size={30}
+                      color={color}
+                    />
+                  )
+                } else if (route.name === 'Profile') {
+                  iconName = focused ? 'account' : 'account-outline'
+                  return (
+                    <MaterialCommunityIcons
+                      name={iconName}
+                      size={30}
+                      color={color}
+                    />
+                  )
+                }
+              },
+              headerShown: false,
+            })}
+          >
+            <Tab.Screen name='Home' component={HomeStackScreen} />
+            <Tab.Screen
+              name='Profile'
+              //options={{ unmountOnBlur: true }}
+              component={ProfileStackScreen}
+            />
+          </Tab.Navigator>
+        </UserContext.Provider>
       </PaperProvider>
     </NavigationContainer>
   )

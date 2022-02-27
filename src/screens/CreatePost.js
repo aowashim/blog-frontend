@@ -3,32 +3,50 @@ import { Text, TextInput, Button, IconButton } from 'react-native-paper'
 import { Formik } from 'formik'
 import { postValidation } from '../helpers/yupValidation'
 import { globalStyles } from '../helpers/globalStyles'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import ImagePicker from '../components/ImagePicker'
 import { pickImage } from '../helpers/pickImage'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { getDate } from '../helpers/getDate'
+import { createPost } from '../helpers/callApi'
+import { uploadToCloud } from '../helpers/uploadToCloud'
+import UserContext from '../store/UserContext'
+import Loading from '../components/Loading'
 
 const CreatePost = () => {
   const [dp, setDp] = useState('')
   const [modalPicImage, setModalPicImage] = useState(false)
+  const [posting, setPosting] = useState(false)
+  const { userToken } = useContext(UserContext)
 
-  const handleSignUp = async values => {
-    setSigningUp(true)
-    let dpUri = ''
+  const handlePost = async values => {
+    setPosting(true)
+
+    let image = ''
     if (dp) {
       const data = await uploadToCloud(dp)
       if (!data[0]) {
-        console.log('Sign up failed...')
+        console.log('Post unsuccessful...')
         return
       } else {
-        dpUri = data[1]
+        image = data[1]
       }
     }
 
-    const res = await registerUser({ ...values, dpUri })
-    console.log(res)
-    setSigningUp(false)
-    setUsernameChecked(false)
+    const pdate = getDate()
+
+    const res = await createPost(
+      {
+        ...values,
+        image,
+        pdate,
+        location: '',
+        ip: '',
+      },
+      userToken
+    )
+
+    setPosting(false)
   }
 
   const handleImage = async (val, isDp) => {
@@ -40,14 +58,15 @@ const CreatePost = () => {
     }
   }
 
-  return (
+  return posting ? (
+    <Loading txt='Posting...' />
+  ) : (
     <ScrollView style={{ marginHorizontal: 10, marginVertical: 10 }}>
       <Formik
         initialValues={{ title: '', description: '' }}
         validationSchema={postValidation}
         onSubmit={(values, action) => {
-          // handleSignIn(values)
-          console.log(values)
+          handlePost(values)
           //action.resetForm()
         }}
       >
@@ -126,15 +145,6 @@ const CreatePost = () => {
           </View>
         )}
       </Formik>
-
-      {/* <Button
-        onPress={() => setModalPicImage(true)}
-        mode='contained'
-        icon='login'
-        style={{ marginTop: 10 }}
-      >
-        Image
-      </Button> */}
 
       <ImagePicker
         visible={modalPicImage}

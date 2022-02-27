@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
 import { Button, FAB } from 'react-native-paper'
 import ListFooter from '../components/ListFooter'
 import Post from '../components/Post'
 import { addBookMark, getAllPost, rmvBookMark } from '../helpers/callApi'
+import UserContext from '../store/UserContext'
 
 const Home = props => {
   const posts = useRef([])
@@ -11,6 +12,7 @@ const Home = props => {
   const [pull, setPull] = useState(false)
   const lastPost = useRef(99999)
   const [refresh, setRefresh] = useState(false)
+  const { userToken } = useContext(UserContext)
 
   useEffect(() => {
     handlePosts(false)
@@ -19,7 +21,7 @@ const Home = props => {
   const handlePosts = async isPulled => {
     if (!morePost.current) return
 
-    const res = await getAllPost(lastPost.current)
+    const res = await getAllPost(lastPost.current, userToken)
 
     if (res.status !== 400) {
       lastPost.current = res.data[res.data.length - 1].pid
@@ -49,19 +51,13 @@ const Home = props => {
 
   const handleBookMark = async (id, bm, index) => {
     if (Boolean(bm)) {
-      const status = await rmvBookMark(
-        id,
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFvd2FzaGltIiwiaWF0IjoxNjQ1NjM5OTE3fQ.I64d_WHgbe8U_zvGq_wsCdl9spHEf81ZVAEvig0S43s'
-      )
+      const status = await rmvBookMark(id, userToken)
 
       if (status === 200) {
         changePostData(index, 0)
       }
     } else {
-      const status = await addBookMark(
-        id,
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFvd2FzaGltIiwiaWF0IjoxNjQ1NjM5OTE3fQ.I64d_WHgbe8U_zvGq_wsCdl9spHEf81ZVAEvig0S43s'
-      )
+      const status = await addBookMark(id, userToken)
 
       if (status === 200) {
         changePostData(index, 1)

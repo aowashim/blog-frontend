@@ -1,20 +1,37 @@
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, ToastAndroid, View } from 'react-native'
 import { Avatar, Button, Subheading, Text, TextInput } from 'react-native-paper'
 import { Formik } from 'formik'
 import { signInValidation } from '../helpers/yupValidation'
 import { globalStyles } from '../helpers/globalStyles'
 import { userSignIn } from '../helpers/callApi'
 import Loading from '../components/Loading'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { storeData } from '../helpers/asyncStorage'
+import UserContext from '../store/UserContext'
 
 const SignIn = props => {
   const [signingIn, setSigningIn] = useState(false)
+  const { userToken, setUserToken } = useContext(UserContext)
 
   const handleSignIn = async values => {
     setSigningIn(true)
-    const data = await userSignIn(values)
-    console.log(data)
-    setSigningIn(false)
+    const res = await userSignIn(values)
+
+    if (res.status === 200) {
+      await storeData('userToken', res.data)
+
+      setSigningIn(false)
+      setUserToken(res.data)
+    } else if (res.status === 400) {
+      setSigningIn(false)
+      ToastAndroid.show('Invalid username or password', ToastAndroid.LONG)
+    } else {
+      setSigningIn(false)
+      ToastAndroid.show(
+        'An error occurred, please try again',
+        ToastAndroid.LONG
+      )
+    }
   }
 
   return signingIn ? (
