@@ -58,6 +58,25 @@ export const checkUser = async un => {
   return res
 }
 
+export const getUserInfo = async token => {
+  const res = { data: '', status: 200 }
+  try {
+    const val = await axios.get(`${SERVER}/profile`, {
+      headers: {
+        'x-auth-token': token,
+      },
+    })
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
+}
+
 export const getAllPost = async (lastPost, token) => {
   const res = { data: '', status: 200 }
   try {
@@ -78,8 +97,6 @@ export const getAllPost = async (lastPost, token) => {
     res.data = error.message
     res.status = error.response.status
   }
-
-  console.log(res)
 
   return res
 }

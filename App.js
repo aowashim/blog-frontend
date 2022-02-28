@@ -19,6 +19,7 @@ import CreatePost from './src/screens/CreatePost'
 import UserContext from './src/store/UserContext'
 import { useEffect, useMemo, useState } from 'react'
 import { getData } from './src/helpers/asyncStorage'
+import Loading from './src/components/Loading'
 
 const MyDarkThemeNav = {
   ...NavDarkTheme,
@@ -60,10 +61,15 @@ const HomeStackScreen = () => {
   )
 }
 
+const GettingToken = () => {
+  return <Loading txt='' />
+}
+
 const App = () => {
   //const scheme = useColorScheme()
   const scheme = 'dark'
   const [userToken, setUserToken] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     checkUser()
@@ -72,8 +78,11 @@ const App = () => {
   const checkUser = async () => {
     const res = await getData('userToken')
 
-    if (!res) return
-    setUserToken(res)
+    if (res) {
+      setUserToken(res)
+    }
+
+    setLoading(false)
   }
 
   const userInfo = useMemo(() => ({ userToken, setUserToken }), [userToken])
@@ -119,7 +128,10 @@ const App = () => {
               headerShown: false,
             })}
           >
-            <Tab.Screen name='Home' component={HomeStackScreen} />
+            <Tab.Screen
+              name='Home'
+              component={loading ? GettingToken : HomeStackScreen}
+            />
             <Tab.Screen
               name='Profile'
               //options={{ unmountOnBlur: true }}

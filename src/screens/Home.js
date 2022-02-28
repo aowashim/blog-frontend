@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
 import { Button, FAB } from 'react-native-paper'
 import ListFooter from '../components/ListFooter'
+import Loading from '../components/Loading'
 import Post from '../components/Post'
 import { addBookMark, getAllPost, rmvBookMark } from '../helpers/callApi'
 import UserContext from '../store/UserContext'
@@ -50,18 +51,22 @@ const Home = props => {
   }
 
   const handleBookMark = async (id, bm, index) => {
-    if (Boolean(bm)) {
-      const status = await rmvBookMark(id, userToken)
+    if (userToken) {
+      if (Boolean(bm)) {
+        const status = await rmvBookMark(id, userToken)
 
-      if (status === 200) {
-        changePostData(index, 0)
+        if (status === 200) {
+          changePostData(index, 0)
+        }
+      } else {
+        const status = await addBookMark(id, userToken)
+
+        if (status === 200) {
+          changePostData(index, 1)
+        }
       }
     } else {
-      const status = await addBookMark(id, userToken)
-
-      if (status === 200) {
-        changePostData(index, 1)
-      }
+      ToastAndroid.show('Please sign in to bookmark', ToastAndroid.LONG)
     }
   }
 
@@ -103,9 +108,7 @@ const Home = props => {
       />
     </View>
   ) : (
-    <View style={styles.container}>
-      <Button onPress={() => handlePosts(false)}>CLick</Button>
-    </View>
+    <Loading txt='Getting posts...' />
   )
 }
 
