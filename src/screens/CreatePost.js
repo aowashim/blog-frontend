@@ -17,7 +17,7 @@ const CreatePost = () => {
   const [dp, setDp] = useState('')
   const [modalPicImage, setModalPicImage] = useState(false)
   const [posting, setPosting] = useState(false)
-  const { userToken } = useContext(UserContext)
+  const { userInfo } = useContext(UserContext)
 
   const handlePost = async values => {
     setPosting(true)
@@ -43,7 +43,7 @@ const CreatePost = () => {
         location: '',
         ip: '',
       },
-      userToken
+      userInfo.token
     )
 
     setPosting(false)

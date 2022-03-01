@@ -14,7 +14,7 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 20,
   },
   avatar: {
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
     marginBottom: 20,
     marginTop: 10,

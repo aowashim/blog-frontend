@@ -68,7 +68,11 @@ const GettingToken = () => {
 const App = () => {
   //const scheme = useColorScheme()
   const scheme = 'dark'
-  const [userToken, setUserToken] = useState('')
+  const [userInfo, setUserInfo] = useState({
+    token: '',
+    name: '',
+    user: false,
+  })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -76,16 +80,21 @@ const App = () => {
   }, [])
 
   const checkUser = async () => {
-    const res = await getData('userToken')
+    const token = await getData('userToken')
+    const name = await getData('name')
 
-    if (res) {
-      setUserToken(res)
+    if (token && name) {
+      setUserInfo({
+        token,
+        name,
+        user: true,
+      })
     }
 
     setLoading(false)
   }
 
-  const userInfo = useMemo(() => ({ userToken, setUserToken }), [userToken])
+  const val = useMemo(() => ({ userInfo, setUserInfo }), [userInfo.token])
 
   return (
     <NavigationContainer
@@ -98,7 +107,7 @@ const App = () => {
           //backgroundColor={scheme === 'dark' ? '#18241e' : '#ffffff'}
           style={scheme === 'dark' ? 'light' : 'dark'}
         />
-        <UserContext.Provider value={userInfo}>
+        <UserContext.Provider value={val}>
           <Tab.Navigator
             // backBehavior={{ initialRoute: true }}
             screenOptions={({ route }) => ({

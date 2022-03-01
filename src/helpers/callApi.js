@@ -15,12 +15,14 @@ export const registerUser = async values => {
       dp: values.dpUri,
     })
 
-    res.data = val.data.token
+    res.data = val.data
     res.status = val.status
   } catch (error) {
     res.data = error.message
     res.status = error.response.status
   }
+
+  console.log(res)
 
   return res
 }
@@ -33,7 +35,7 @@ export const userSignIn = async values => {
       pwrd: values.pwrd,
     })
 
-    res.data = val.data.token
+    res.data = val.data
     res.status = val.status
   } catch (error) {
     res.data = error.message

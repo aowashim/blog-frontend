@@ -11,17 +11,18 @@ import UserContext from '../store/UserContext'
 
 const SignIn = props => {
   const [signingIn, setSigningIn] = useState(false)
-  const { userToken, setUserToken } = useContext(UserContext)
+  const { setUserInfo } = useContext(UserContext)
 
   const handleSignIn = async values => {
     setSigningIn(true)
     const res = await userSignIn(values)
 
     if (res.status === 200) {
-      await storeData('userToken', res.data)
+      await storeData('userToken', res.data.token)
+      await storeData('name', res.data.name)
 
       setSigningIn(false)
-      setUserToken(res.data)
+      setUserInfo({ ...res.data, user: true })
     } else if (res.status === 400) {
       setSigningIn(false)
       ToastAndroid.show('Invalid username or password', ToastAndroid.LONG)
@@ -39,7 +40,7 @@ const SignIn = props => {
   ) : (
     <ScrollView style={{ marginHorizontal: 10, marginVertical: 10 }}>
       <View style={globalStyles.avatar}>
-        <Avatar.Icon size={60} icon='login' color='orange' />
+        <Avatar.Icon size={70} icon='login' color='orange' />
       </View>
       <Formik
         initialValues={{ userName: '', pwrd: '' }}

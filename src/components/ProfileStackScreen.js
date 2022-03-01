@@ -8,12 +8,18 @@ import UserContext from '../store/UserContext'
 const ProfileStack = createStackNavigator()
 
 const ProfileStackScreen = () => {
-  const { userToken } = useContext(UserContext)
+  const { userInfo } = useContext(UserContext)
 
-  if (userToken) {
+  if (userInfo.user) {
     return (
       <ProfileStack.Navigator screenOptions={{ animationEnabled: false }}>
-        <ProfileStack.Screen name='ProfileS' component={Profile} />
+        <ProfileStack.Screen
+          name='ProfileS'
+          component={Profile}
+          options={({ route }) => ({
+            title: route.params?.name || userInfo.name,
+          })}
+        />
       </ProfileStack.Navigator>
     )
   } else {

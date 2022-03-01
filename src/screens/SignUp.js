@@ -5,21 +5,24 @@ import { signUpValidation } from '../helpers/yupValidation'
 import { globalStyles } from '../helpers/globalStyles'
 import { checkUser, registerUser } from '../helpers/callApi'
 import ImagePicker from '../components/ImagePicker'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { pickImage } from '../helpers/pickImage'
 import { uploadToCloud } from '../helpers/uploadToCloud'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Loading from '../components/Loading'
+import UserContext from '../store/UserContext'
+import { storeData } from '../helpers/asyncStorage'
 
 const SignUp = props => {
   const [modalPicImage, setModalPicImage] = useState(false)
   const [usernameChecked, setUsernameChecked] = useState(false)
   const [signingUp, setSigningUp] = useState(false)
   const [dp, setDp] = useState('')
+  const { setUserInfo } = useContext(UserContext)
 
   const handleSignUp = async values => {
     setSigningUp(true)
-    let dpUri = ''
+    let dpUri = 'na'
     if (dp) {
       const data = await uploadToCloud(dp)
       if (!data[0]) {
@@ -31,7 +34,23 @@ const SignUp = props => {
     }
 
     const res = await registerUser({ ...values, dpUri })
-    console.log(res)
+
+    if (res.status === 200) {
+      await storeData('userToken', res.data.token)
+      await storeData('name', res.data.name)
+
+      setSigningUp(false)
+      setUserInfo({ ...res.data, user: true })
+      return
+    } else if (res.status === 400) {
+      ToastAndroid.show('Invalid username or password', ToastAndroid.LONG)
+    } else {
+      ToastAndroid.show(
+        'An error occurred, please try again',
+        ToastAndroid.LONG
+      )
+    }
+
     setSigningUp(false)
     setUsernameChecked(false)
   }

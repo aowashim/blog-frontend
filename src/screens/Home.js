@@ -13,7 +13,7 @@ const Home = props => {
   const [pull, setPull] = useState(false)
   const lastPost = useRef(99999)
   const [refresh, setRefresh] = useState(false)
-  const { userToken } = useContext(UserContext)
+  const { userInfo } = useContext(UserContext)
 
   useEffect(() => {
     handlePosts(false)
@@ -22,7 +22,7 @@ const Home = props => {
   const handlePosts = async isPulled => {
     if (!morePost.current) return
 
-    const res = await getAllPost(lastPost.current, userToken)
+    const res = await getAllPost(lastPost.current, userInfo.token)
 
     if (res.status !== 400) {
       lastPost.current = res.data[res.data.length - 1].pid
@@ -51,15 +51,15 @@ const Home = props => {
   }
 
   const handleBookMark = async (id, bm, index) => {
-    if (userToken) {
+    if (userInfo.user) {
       if (Boolean(bm)) {
-        const status = await rmvBookMark(id, userToken)
+        const status = await rmvBookMark(id, userInfo.token)
 
         if (status === 200) {
           changePostData(index, 0)
         }
       } else {
-        const status = await addBookMark(id, userToken)
+        const status = await addBookMark(id, userInfo.token)
 
         if (status === 200) {
           changePostData(index, 1)

@@ -21,7 +21,16 @@ const Post = ({ item, handleBookMark, index }) => {
             marginRight: 30,
           }}
         >
-          <Avatar.Image size={45} source={{ uri: item.dp }} />
+          {/* <Avatar.Image size={45} source={{ uri: item.dp }} /> */}
+          {item.dp !== 'na' ? (
+            <Avatar.Image size={45} source={{ uri: item.dp }} />
+          ) : (
+            <Avatar.Icon
+              size={45}
+              icon='account'
+              style={{ backgroundColor: '#333333' }}
+            />
+          )}
           <View style={{ marginLeft: 5, marginTop: 2 }}>
             <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
               {item.name}

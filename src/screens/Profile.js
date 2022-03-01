@@ -1,33 +1,54 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
-import { Button, Text, TextInput } from 'react-native-paper'
+import { Avatar, Button, Headline, Text, TextInput } from 'react-native-paper'
+import Loading from '../components/Loading'
 import { removeValue } from '../helpers/asyncStorage'
 import { getUserInfo } from '../helpers/callApi'
+import { globalStyles } from '../helpers/globalStyles'
 import UserContext from '../store/UserContext'
-import SignIn from './SignIn'
 
 const Profile = () => {
-  const { userToken, setUserToken } = useContext(UserContext)
+  const { userInfo, setUserInfo } = useContext(UserContext)
+  const userData = useRef('')
+  const [refresh, setRefresh] = useState(false)
+
+  useEffect(() => {
+    handleUserInfo()
+  }, [])
 
   const handleSignOut = async () => {
     await removeValue('userToken')
-    setUserToken('')
+    setUserInfo('')
   }
 
   const handleUserInfo = async () => {
-    const res = await getUserInfo(userToken)
+    const res = await getUserInfo(userInfo.token)
 
     if (res.status === 200) {
-      console.log(res.data)
+      userData.current = res.data
+      setRefresh(!refresh)
     }
   }
 
-  return (
+  return Boolean(userData.current) ? (
     <View>
-      <Text>Hi.. how are you</Text>
-      <Button onPress={handleSignOut}>Log Out</Button>
-      <Button onPress={handleUserInfo}>Info</Button>
+      <View style={globalStyles.avatar}>
+        {userData.current.dp !== 'na' ? (
+          <Avatar.Image size={100} source={{ uri: userData.current.dp }} />
+        ) : (
+          <Avatar.Icon
+            size={100}
+            icon='account'
+            style={{ backgroundColor: '#333333' }}
+          />
+        )}
+      </View>
+      <View>
+        <Button onPress={handleSignOut}>Log Out</Button>
+      </View>
     </View>
+  ) : (
+    <Loading txt='' />
   )
 }
 
