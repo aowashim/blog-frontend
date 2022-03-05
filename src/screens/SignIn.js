@@ -6,7 +6,7 @@ import { globalStyles } from '../helpers/globalStyles'
 import { userSignIn } from '../helpers/callApi'
 import Loading from '../components/Loading'
 import { useContext, useState } from 'react'
-import { storeData } from '../helpers/asyncStorage'
+import { getData, storeData } from '../helpers/asyncStorage'
 import UserContext from '../store/UserContext'
 
 const SignIn = props => {
@@ -18,8 +18,7 @@ const SignIn = props => {
     const res = await userSignIn(values)
 
     if (res.status === 200) {
-      await storeData('userToken', res.data.token)
-      await storeData('name', res.data.name)
+      await storeData('userInfo', res.data)
 
       setSigningIn(false)
       setUserInfo({ ...res.data, user: true })

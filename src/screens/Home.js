@@ -5,6 +5,7 @@ import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
 import Post from '../components/Post'
 import { addBookMark, getAllPost, rmvBookMark } from '../helpers/callApi'
+import { globalStyles } from '../helpers/globalStyles'
 import UserContext from '../store/UserContext'
 
 const Home = props => {
@@ -16,8 +17,23 @@ const Home = props => {
   const { userInfo } = useContext(UserContext)
 
   useEffect(() => {
-    handlePosts(false)
-  }, [])
+    handleNewPosts()
+  }, [userInfo.user])
+
+  const handleNewPosts = async () => {
+    const res = await getAllPost(99999, userInfo.token)
+
+    if (res.status !== 400) {
+      lastPost.current = res.data[res.data.length - 1].pid
+      posts.current = res.data
+      morePost.current = true
+
+      setRefresh(!refresh)
+    } else {
+      // morePost.current = false
+      setRefresh(!refresh)
+    }
+  }
 
   const handlePosts = async isPulled => {
     if (!morePost.current) return
@@ -84,6 +100,7 @@ const Home = props => {
         item={itemData.item}
         handleBookMark={handleBookMark}
         index={itemData.index}
+        navigation={props.navigation}
       />
     )
   }
@@ -114,7 +131,7 @@ const Home = props => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 0,
+    marginHorizontal: 5,
   },
   fab: {
     position: 'absolute',

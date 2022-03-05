@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import Profile from '../screens/Profile'
 import SignIn from '../screens/SignIn'
 import SignUp from '../screens/SignUp'
@@ -16,9 +16,7 @@ const ProfileStackScreen = () => {
         <ProfileStack.Screen
           name='ProfileS'
           component={Profile}
-          options={({ route }) => ({
-            title: route.params?.name || userInfo.name,
-          })}
+          options={{ title: userInfo.name }}
         />
       </ProfileStack.Navigator>
     )

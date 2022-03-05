@@ -1,7 +1,7 @@
 import axios from 'axios'
 //import { SERVER } from '@env'
 
-const SERVER = 'http://10.55.9.41:5000'
+const SERVER = 'http://192.168.166.66:5000'
 
 export const registerUser = async values => {
   const res = { data: '', status: 200 }
@@ -60,14 +60,20 @@ export const checkUser = async un => {
   return res
 }
 
-export const getUserInfo = async token => {
+export const getUserInfo = async (token, self) => {
   const res = { data: '', status: 200 }
   try {
-    const val = await axios.get(`${SERVER}/profile`, {
-      headers: {
-        'x-auth-token': token,
-      },
-    })
+    let val
+
+    if (self) {
+      val = await axios.get(`${SERVER}/profile`, {
+        headers: {
+          'x-auth-token': token,
+        },
+      })
+    } else {
+      val = await axios.get(`${SERVER}/profile/view?id=${token}`)
+    }
 
     res.data = val.data
     res.status = val.status

@@ -20,6 +20,7 @@ import UserContext from './src/store/UserContext'
 import { useEffect, useMemo, useState } from 'react'
 import { getData } from './src/helpers/asyncStorage'
 import Loading from './src/components/Loading'
+import Profile from './src/screens/Profile'
 
 const MyDarkThemeNav = {
   ...NavDarkTheme,
@@ -57,6 +58,13 @@ const HomeStackScreen = () => {
     <HomeStack.Navigator>
       <HomeStack.Screen name='HomeS' component={Home} />
       <HomeStack.Screen name='Post' component={CreatePost} />
+      <HomeStack.Screen
+        name='ViewProfile'
+        component={Profile}
+        options={({ route }) => ({
+          title: route.params.name,
+        })}
+      />
     </HomeStack.Navigator>
   )
 }
@@ -71,22 +79,23 @@ const App = () => {
   const [userInfo, setUserInfo] = useState({
     token: '',
     name: '',
+    uname: '',
     user: false,
   })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    checkUser()
+    if (!userInfo.user) {
+      checkUser()
+    }
   }, [])
 
   const checkUser = async () => {
-    const token = await getData('userToken')
-    const name = await getData('name')
+    const data = await getData('userInfo')
 
-    if (token && name) {
+    if (data) {
       setUserInfo({
-        token,
-        name,
+        ...data,
         user: true,
       })
     }
