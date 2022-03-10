@@ -4,11 +4,16 @@ import { Button, FAB } from 'react-native-paper'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
 import Post from '../components/Post'
-import { addBookMark, getAllPost, rmvBookMark } from '../helpers/callApi'
+import {
+  addBookMark,
+  getAllPost,
+  getUserPosts,
+  rmvBookMark,
+} from '../helpers/callApi'
 import { globalStyles } from '../helpers/globalStyles'
 import UserContext from '../store/UserContext'
 
-const Home = props => {
+const Posts = props => {
   const posts = useRef([])
   const morePost = useRef(true)
   const [pull, setPull] = useState(false)
@@ -21,7 +26,13 @@ const Home = props => {
   }, [userInfo.user])
 
   const handleNewPosts = async () => {
-    const res = await getAllPost(99999, userInfo.token)
+    let res
+    if (props.route.params?.un) {
+      console.log(props.route.params?.un)
+      res = await getUserPosts(99999, userInfo.token, props.route.params.un)
+    } else {
+      res = await getAllPost(99999, userInfo.token)
+    }
 
     if (res.status !== 400) {
       lastPost.current = res.data[res.data.length - 1].pid
@@ -38,7 +49,19 @@ const Home = props => {
   const handlePosts = async isPulled => {
     if (!morePost.current) return
 
-    const res = await getAllPost(lastPost.current, userInfo.token)
+    // const res = await getAllPost(lastPost.current, userInfo.token)
+
+    let res
+    if (props.route.params?.un) {
+      console.log(props.route.params?.un)
+      res = await getUserPosts(
+        lastPost.current,
+        userInfo.token,
+        props.route.params.un
+      )
+    } else {
+      res = await getAllPost(lastPost.current, userInfo.token)
+    }
 
     if (res.status !== 400) {
       lastPost.current = res.data[res.data.length - 1].pid
@@ -118,11 +141,13 @@ const Home = props => {
         refreshing={pull}
       />
 
-      <FAB
-        style={styles.fab}
-        icon='pen-plus'
-        onPress={() => props.navigation.navigate('Post')}
-      />
+      {!props.route.params?.un && (
+        <FAB
+          style={styles.fab}
+          icon='pen-plus'
+          onPress={() => props.navigation.navigate('Post')}
+        />
+      )}
     </View>
   ) : (
     <Loading txt='Getting posts...' />
@@ -141,4 +166,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Home
+export default Posts

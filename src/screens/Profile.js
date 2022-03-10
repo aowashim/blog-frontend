@@ -107,7 +107,13 @@ const Profile = ({ route, navigation }) => {
         icon='book-open-page-variant'
         style={styles.btn}
         color='orange'
-        onPress={handleSignOut}
+        onPress={() => {
+          if (self.current) {
+            navigation.navigate('MyPosts', { un: userData.current.userName })
+          } else {
+            navigation.navigate('UserPosts', { un: userData.current.userName })
+          }
+        }}
       >
         {self.current ? 'My Posts' : 'Posts'}
       </Button>

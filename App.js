@@ -12,7 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
-import Home from './src/screens/Home'
+import Posts from './src/screens/Posts'
 import { useColorScheme } from 'react-native'
 import ProfileStackScreen from './src/components/ProfileStackScreen'
 import CreatePost from './src/screens/CreatePost'
@@ -56,8 +56,9 @@ const Tab = createBottomTabNavigator()
 const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name='HomeS' component={Home} />
+      <HomeStack.Screen name='HomeS' component={Posts} />
       <HomeStack.Screen name='Post' component={CreatePost} />
+      <HomeStack.Screen name='UserPosts' component={Posts} />
       <HomeStack.Screen
         name='ViewProfile'
         component={Profile}

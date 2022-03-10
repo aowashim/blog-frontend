@@ -1,7 +1,7 @@
 import axios from 'axios'
 //import { SERVER } from '@env'
 
-const SERVER = 'http://192.168.166.66:5000'
+const SERVER = 'http://10.55.7.118:5000'
 
 export const registerUser = async values => {
   const res = { data: '', status: 200 }
@@ -105,6 +105,35 @@ export const getAllPost = async (lastPost, token) => {
     res.data = error.message
     res.status = error.response.status
   }
+
+  return res
+}
+
+export const getUserPosts = async (lastPost, token, un) => {
+  const res = { data: '', status: 200 }
+  try {
+    let val
+    if (token) {
+      val = await axios.get(
+        `${SERVER}/post/user/auth?id=${lastPost}&un=${un}`,
+        {
+          headers: {
+            'x-auth-token': token,
+          },
+        }
+      )
+    } else {
+      val = await axios.get(`${SERVER}/post/all?id=${lastPost}`)
+    }
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  console.log(res)
 
   return res
 }
