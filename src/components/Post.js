@@ -8,13 +8,17 @@ const Post = props => {
   const { userInfo } = useContext(UserContext)
 
   const handleNav = () => {
-    if (userInfo.uname === props.item.userName) {
-      props.navigation.navigate('Profile')
+    if (props.home) {
+      if (userInfo.uname === props.item.userName) {
+        props.navigation.navigate('Profile')
+      } else {
+        props.navigation.navigate('ViewProfile', {
+          uname: props.item.userName,
+          name: props.item.name,
+        })
+      }
     } else {
-      props.navigation.navigate('ViewProfile', {
-        uname: props.item.userName,
-        name: props.item.name,
-      })
+      props.navigation.pop()
     }
   }
 
@@ -63,7 +67,12 @@ const Post = props => {
             paddingHorizontal: 10,
           }}
           onPress={() =>
-            props.handleBookMark(props.item.pid, props.item.bm, props.index)
+            props.handleBookMark(
+              props.item.pid,
+              props.item.bm,
+              props.index,
+              props.item.title
+            )
           }
         >
           <MaterialCommunityIcons
@@ -81,7 +90,7 @@ const Post = props => {
       <Headline>{props.item.title}</Headline>
       <Paragraph>{props.item.description}</Paragraph>
 
-      {Boolean(props.item.image.length) && (
+      {Boolean(props.item.image?.length) && (
         <Image
           style={{ height: 300, width: '100%' }}
           source={{

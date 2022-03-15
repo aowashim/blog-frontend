@@ -109,9 +109,14 @@ const Profile = ({ route, navigation }) => {
         color='orange'
         onPress={() => {
           if (self.current) {
-            navigation.navigate('MyPosts', { un: userData.current.userName })
+            navigation.navigate('MyPosts', {
+              un: userData.current.userName,
+            })
           } else {
-            navigation.navigate('UserPosts', { un: userData.current.userName })
+            navigation.navigate('UserPosts', {
+              un: userData.current.userName,
+              name: userData.current.name.split(' ')[0],
+            })
           }
         }}
       >
@@ -138,19 +143,21 @@ const Profile = ({ route, navigation }) => {
           icon='bookmark-multiple'
           style={styles.btn}
           color='orange'
-          onPress={handleSignOut}
+          onPress={() => navigation.navigate('Bookmarks')}
         >
           Bookmarks
         </Button>
       )}
-      <Button
-        icon='logout'
-        style={styles.btn}
-        color='orange'
-        onPress={handleSignOut}
-      >
-        Log Out
-      </Button>
+      {self.current && (
+        <Button
+          icon='logout'
+          style={styles.btn}
+          color='orange'
+          onPress={handleSignOut}
+        >
+          Log Out
+        </Button>
+      )}
     </View>
   ) : (
     <Loading txt='' />

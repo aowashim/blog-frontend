@@ -28,7 +28,7 @@ const Posts = props => {
   const handleNewPosts = async () => {
     let res
     if (props.route.params?.un) {
-      console.log(props.route.params?.un)
+      // console.log(props.route.params?.un)
       res = await getUserPosts(99999, userInfo.token, props.route.params.un)
     } else {
       res = await getAllPost(99999, userInfo.token)
@@ -53,7 +53,6 @@ const Posts = props => {
 
     let res
     if (props.route.params?.un) {
-      console.log(props.route.params?.un)
       res = await getUserPosts(
         lastPost.current,
         userInfo.token,
@@ -89,7 +88,7 @@ const Posts = props => {
     }
   }
 
-  const handleBookMark = async (id, bm, index) => {
+  const handleBookMark = async (id, bm, index, title) => {
     if (userInfo.user) {
       if (Boolean(bm)) {
         const status = await rmvBookMark(id, userInfo.token)
@@ -98,7 +97,7 @@ const Posts = props => {
           changePostData(index, 0)
         }
       } else {
-        const status = await addBookMark(id, userInfo.token)
+        const status = await addBookMark(id, userInfo.token, title)
 
         if (status === 200) {
           changePostData(index, 1)
@@ -113,6 +112,7 @@ const Posts = props => {
     setPull(true)
     morePost.current = true
     lastPost.current = 99999
+    posts.current = []
     await handlePosts(true)
     setPull(false)
   }
@@ -124,6 +124,7 @@ const Posts = props => {
         handleBookMark={handleBookMark}
         index={itemData.index}
         navigation={props.navigation}
+        home={Boolean(!props.route.params?.un)}
       />
     )
   }

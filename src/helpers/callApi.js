@@ -1,7 +1,7 @@
 import axios from 'axios'
 //import { SERVER } from '@env'
 
-const SERVER = 'http://10.55.7.118:5000'
+const SERVER = 'http://10.55.13.83:5000'
 
 export const registerUser = async values => {
   const res = { data: '', status: 200 }
@@ -21,8 +21,6 @@ export const registerUser = async values => {
     res.data = error.message
     res.status = error.response.status
   }
-
-  console.log(res)
 
   return res
 }
@@ -123,7 +121,7 @@ export const getUserPosts = async (lastPost, token, un) => {
         }
       )
     } else {
-      val = await axios.get(`${SERVER}/post/all?id=${lastPost}`)
+      val = await axios.get(`${SERVER}/post/user?id=${lastPost}&un=${un}`)
     }
 
     res.data = val.data
@@ -132,8 +130,6 @@ export const getUserPosts = async (lastPost, token, un) => {
     res.data = error.message
     res.status = error.response.status
   }
-
-  console.log(res)
 
   return res
 }
@@ -157,12 +153,13 @@ export const createPost = async (values, token) => {
   return res
 }
 
-export const addBookMark = async (pid, token) => {
+export const addBookMark = async (pid, token, title) => {
   try {
     const val = await axios.post(
       `${SERVER}/bookmark/`,
       {
         pid,
+        title,
       },
       {
         headers: {
@@ -194,4 +191,42 @@ export const rmvBookMark = async (pid, token) => {
   } catch (error) {
     return error.response.status
   }
+}
+
+export const getBookmarks = async (token, last) => {
+  const res = { data: '', status: 200 }
+  try {
+    const val = await axios.get(`${SERVER}/bookmark?id=${last}`, {
+      headers: {
+        'x-auth-token': token,
+      },
+    })
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
+}
+
+export const getSinglePost = async (token, pid) => {
+  const res = { data: '', status: 200 }
+  try {
+    const val = await axios.get(`${SERVER}/post/auth/one?id=${pid}`, {
+      headers: {
+        'x-auth-token': token,
+      },
+    })
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
 }
