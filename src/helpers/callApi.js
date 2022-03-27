@@ -1,7 +1,7 @@
 import axios from 'axios'
 //import { SERVER } from '@env'
 
-const SERVER = 'http://10.55.13.83:5000'
+const SERVER = 'http://10.55.3.139:5000'
 
 export const registerUser = async values => {
   const res = { data: '', status: 200 }
@@ -220,6 +220,21 @@ export const getSinglePost = async (token, pid) => {
         'x-auth-token': token,
       },
     })
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
+}
+
+export const getFollowers = async (un, id) => {
+  const res = { data: '', status: 200 }
+  try {
+    const val = await axios.get(`${SERVER}/follower?id=${id}&un=${un}`)
 
     res.data = val.data
     res.status = val.status

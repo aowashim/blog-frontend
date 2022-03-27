@@ -126,7 +126,7 @@ const Profile = ({ route, navigation }) => {
         icon='account-arrow-right'
         style={styles.btn}
         color='orange'
-        onPress={handleSignOut}
+        onPress={() => navigation.navigate('Followers')}
       >
         Followers
       </Button>

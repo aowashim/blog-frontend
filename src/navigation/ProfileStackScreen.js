@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { useContext } from 'react'
 import Post from '../components/Post'
 import Bookmarks from '../screens/Bookmarks'
+import Followers from '../screens/Followers'
 import Posts from '../screens/Posts'
 import Profile from '../screens/Profile'
 import SignIn from '../screens/SignIn'
@@ -35,6 +36,11 @@ const ProfileStackScreen = () => {
         <ProfileStack.Screen
           name='SinglePost'
           component={SinglePost}
+          // options={{ title: 'My Posts' }}
+        />
+        <ProfileStack.Screen
+          name='Followers'
+          component={Followers}
           // options={{ title: 'My Posts' }}
         />
       </ProfileStack.Navigator>

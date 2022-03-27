@@ -2,7 +2,7 @@ import { Image, TouchableOpacity, View } from 'react-native'
 import { Avatar, Divider, Headline, Paragraph, Text } from 'react-native-paper'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import UserContext from '../store/UserContext'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 const Post = props => {
   const { userInfo } = useContext(UserContext)
@@ -31,7 +31,7 @@ const Post = props => {
         paddingBottom: 10,
       }}
     >
-      <View style={{ flex: 1, flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
           activeOpacity={0.8}
           style={{
