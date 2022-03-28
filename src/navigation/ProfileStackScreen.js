@@ -43,6 +43,13 @@ const ProfileStackScreen = () => {
           component={Followers}
           // options={{ title: 'My Posts' }}
         />
+        <ProfileStack.Screen
+          name='FollowerProfile'
+          component={Profile}
+          options={({ route }) => ({
+            title: route.params.name,
+          })}
+        />
       </ProfileStack.Navigator>
     )
   } else {

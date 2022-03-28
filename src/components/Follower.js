@@ -7,7 +7,9 @@ const Follower = props => {
   return (
     <TouchableOpacity
       activeOpacity={0.6}
-      onPress={() => props.handleViewPost(props.item.userName)}
+      onPress={() =>
+        props.handleFollowerProfile(props.item.userName, props.item.name)
+      }
     >
       <View style={globalStyles.cont}>
         <View style={styles.cont}>
@@ -24,8 +26,8 @@ const Follower = props => {
           </View>
 
           <View style={styles.nameCont}>
-            <Text>{props.item.name}</Text>
-            <Text>@{props.item.userName}</Text>
+            <Text style={styles.name}>{props.item.name}</Text>
+            <Text style={styles.userName}>@{props.item.userName}</Text>
           </View>
         </View>
       </View>
@@ -37,11 +39,20 @@ const styles = StyleSheet.create({
   cont: {
     flexDirection: 'row',
     marginBottom: 10,
-    backgroundColor: '#0e2333',
+    backgroundColor: '#14191f',
+    paddingVertical: 6,
   },
   nameCont: {
     justifyContent: 'center',
     marginLeft: 10,
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 3,
+  },
+  userName: {
+    fontSize: 12,
   },
 })
 

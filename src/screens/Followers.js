@@ -4,7 +4,7 @@ import { Button, Text } from 'react-native-paper'
 import Follower from '../components/Follower'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
-import { getFollowers } from '../helpers/callApi'
+import { getFollowers, getFollowing } from '../helpers/callApi'
 import UserContext from '../store/UserContext'
 
 const Followers = props => {
@@ -20,10 +20,15 @@ const Followers = props => {
   }, [])
 
   const handleNewFollowers = async () => {
-    const res = await getFollowers(userInfo.uname, 99999)
+    let res
+    if (props.route.params.tn === 'fr') {
+      res = await getFollowers(userInfo.uname, 99999)
+    } else {
+      res = await getFollowing(userInfo.uname, 99999)
+    }
 
     if (res.status !== 400) {
-      last.current = res.data[res.data.length - 1].bid
+      last.current = res.data[res.data.length - 1].id
       followers.current = res.data
       more.current = true
 
@@ -34,8 +39,11 @@ const Followers = props => {
     }
   }
 
-  const handleViewPost = async pid => {
-    props.navigation.navigate('SinglePost', { pid })
+  const handleFollowerProfile = async (uname, name) => {
+    props.navigation.navigate('FollowerProfile', {
+      uname,
+      name,
+    })
   }
 
   const handleGetFollowers = async isPulled => {
@@ -45,10 +53,15 @@ const Followers = props => {
     //   console.log('called')
     // }
 
-    const res = await getFollowers(userInfo.uname, last.current)
+    let res
+    if (props.route.params.tn === 'fr') {
+      res = await getFollowers(userInfo.uname, last.current)
+    } else {
+      res = await getFollowing(userInfo.uname, last.current)
+    }
 
     if (res.status !== 400) {
-      last.current = res.data[res.data.length - 1].bid
+      last.current = res.data[res.data.length - 1].id
       if (isPulled) {
         followers.current = res.data
         more.current = true
@@ -73,7 +86,12 @@ const Followers = props => {
   }
 
   const renderItem = itemData => {
-    return <Follower item={itemData.item} handleViewPost={handleViewPost} />
+    return (
+      <Follower
+        item={itemData.item}
+        handleFollowerProfile={handleFollowerProfile}
+      />
+    )
   }
 
   return followers.current.length ? (
@@ -81,7 +99,7 @@ const Followers = props => {
       <FlatList
         data={followers.current}
         renderItem={renderItem}
-        keyExtractor={item => item.pid}
+        keyExtractor={item => item.id}
         onEndReached={() => handleGetFollowers(false)}
         onEndReachedThreshold={0.5}
         ListFooterComponent={<ListFooter data={more.current} />}

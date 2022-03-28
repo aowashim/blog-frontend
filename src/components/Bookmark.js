@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // justifyContent: 'center',
     paddingVertical: 15,
-    marginBottom: 15,
-    backgroundColor: 'rgba(99, 99, 99, 0.1)',
+    marginBottom: 10,
+    backgroundColor: '#14191f',
     // flexDirection: 'row',
   },
   icon: {

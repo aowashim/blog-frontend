@@ -58,7 +58,7 @@ export const checkUser = async un => {
   return res
 }
 
-export const getUserInfo = async (token, self) => {
+export const getUserInfo = async (token, self, un) => {
   const res = { data: '', status: 200 }
   try {
     let val
@@ -70,7 +70,7 @@ export const getUserInfo = async (token, self) => {
         },
       })
     } else {
-      val = await axios.get(`${SERVER}/profile/view?id=${token}`)
+      val = await axios.get(`${SERVER}/profile/view?id=${token}&un=${un}`)
     }
 
     res.data = val.data
@@ -234,7 +234,22 @@ export const getSinglePost = async (token, pid) => {
 export const getFollowers = async (un, id) => {
   const res = { data: '', status: 200 }
   try {
-    const val = await axios.get(`${SERVER}/follower?id=${id}&un=${un}`)
+    const val = await axios.get(`${SERVER}/f/follower?id=${id}&un=${un}`)
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
+}
+
+export const getFollowing = async (un, id) => {
+  const res = { data: '', status: 200 }
+  try {
+    const val = await axios.get(`${SERVER}/f/following?id=${id}&un=${un}`)
 
     res.data = val.data
     res.status = val.status

@@ -31,9 +31,9 @@ const Profile = ({ route, navigation }) => {
   const handleUserInfo = async () => {
     let res
     if (route.params?.uname) {
-      res = await getUserInfo(route.params.uname, false)
+      res = await getUserInfo(route.params.uname, false, userInfo.uname)
     } else {
-      res = await getUserInfo(userInfo.token, true)
+      res = await getUserInfo(userInfo.token, true, userInfo.uname)
       self.current = true
     }
 
@@ -42,6 +42,8 @@ const Profile = ({ route, navigation }) => {
       setRefresh(!refresh)
     }
   }
+
+  const handleFollow = () => {}
 
   return Boolean(userData.current) ? (
     <View style={globalStyles.container}>
@@ -86,7 +88,7 @@ const Profile = ({ route, navigation }) => {
             <Text style={{ marginLeft: 5 }}>{userData.current.city}</Text>
           </View>
 
-          {self.current && (
+          {self.current ? (
             <Button
               icon='account-edit'
               style={{ marginTop: 15, paddingHorizontal: 2 }}
@@ -94,6 +96,15 @@ const Profile = ({ route, navigation }) => {
               onPress={handleSignOut}
             >
               Edit Profile
+            </Button>
+          ) : (
+            <Button
+              icon='account-edit'
+              style={{ marginTop: 15, paddingHorizontal: 2 }}
+              color='#0092d6'
+              onPress={handleFollow}
+            >
+              {userData.current.fname ? 'Follow' : 'Following'}
             </Button>
           )}
         </View>
@@ -126,7 +137,7 @@ const Profile = ({ route, navigation }) => {
         icon='account-arrow-right'
         style={styles.btn}
         color='orange'
-        onPress={() => navigation.navigate('Followers')}
+        onPress={() => navigation.navigate('Followers', { tn: 'fr' })}
       >
         Followers
       </Button>
@@ -134,7 +145,7 @@ const Profile = ({ route, navigation }) => {
         icon='account-arrow-left'
         style={styles.btn}
         color='orange'
-        onPress={handleSignOut}
+        onPress={() => navigation.navigate('Followers', { tn: 'fg' })}
       >
         Following
       </Button>
