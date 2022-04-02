@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import CreatePost from '../screens/CreatePost'
+import Followers from '../screens/Followers'
 import Posts from '../screens/Posts'
 import Profile from '../screens/Profile'
 
@@ -28,6 +29,18 @@ const HomeStackScreen = () => {
           title: route.params.name,
         })}
       />
+      <HomeStack.Screen
+        name='FollowersHome'
+        component={Followers}
+        // options={{ title: 'My Posts' }}
+      />
+      {/* <HomeStack.Screen
+        name='FollowerProfileHome'
+        component={Profile}
+        options={({ route }) => ({
+          title: route.params.name,
+        })}
+      /> */}
     </HomeStack.Navigator>
   )
 }

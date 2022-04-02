@@ -14,6 +14,7 @@ const Followers = props => {
   const last = useRef(99999)
   const [refresh, setRefresh] = useState(false)
   const { userInfo } = useContext(UserContext)
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     handleNewFollowers()
@@ -22,9 +23,9 @@ const Followers = props => {
   const handleNewFollowers = async () => {
     let res
     if (props.route.params.tn === 'fr') {
-      res = await getFollowers(userInfo.uname, 99999)
+      res = await getFollowers(props.route.params.un, 99999)
     } else {
-      res = await getFollowing(userInfo.uname, 99999)
+      res = await getFollowing(props.route.params.un, 99999)
     }
 
     if (res.status !== 400) {
@@ -34,16 +35,34 @@ const Followers = props => {
 
       setRefresh(!refresh)
     } else {
-      // more.current = false
-      setRefresh(!refresh)
+      setNotFound(true)
+      // setRefresh(!refresh)
     }
   }
 
   const handleFollowerProfile = async (uname, name) => {
-    props.navigation.navigate('FollowerProfile', {
+    let destScreen = 'ViewProfile'
+    const curScreen = props.route.params.screen
+    // console.log(curScreen)
+    if (curScreen === 'ProfileS' || curScreen === 'FollowerProfile')
+      destScreen = 'FollowerProfile'
+
+    props.navigation.push(destScreen, {
       uname,
       name,
     })
+
+    // if (curScreen === 'ProfileS' || curScreen === 'FollowerProfile') {
+    //   props.navigation.navigate('FollowerProfile', {
+    //     uname,
+    //     name,
+    //   })
+    // } else {
+    //   props.navigation.navigate('ViewProfile', {
+    //     uname,
+    //     name,
+    //   })
+    // }
   }
 
   const handleGetFollowers = async isPulled => {
@@ -55,9 +74,9 @@ const Followers = props => {
 
     let res
     if (props.route.params.tn === 'fr') {
-      res = await getFollowers(userInfo.uname, last.current)
+      res = await getFollowers(props.route.params.un, last.current)
     } else {
-      res = await getFollowing(userInfo.uname, last.current)
+      res = await getFollowing(props.route.params.un, last.current)
     }
 
     if (res.status !== 400) {
@@ -94,7 +113,9 @@ const Followers = props => {
     )
   }
 
-  return followers.current.length ? (
+  return notFound ? (
+    <Text>Not found</Text>
+  ) : followers.current.length ? (
     <View style={styles.container}>
       <FlatList
         data={followers.current}

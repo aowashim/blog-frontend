@@ -1,7 +1,7 @@
 import axios from 'axios'
 //import { SERVER } from '@env'
 
-const SERVER = 'http://10.55.3.139:5000'
+const SERVER = 'http://192.168.236.66:5000'
 
 export const registerUser = async values => {
   const res = { data: '', status: 200 }
@@ -232,6 +232,7 @@ export const getSinglePost = async (token, pid) => {
 }
 
 export const getFollowers = async (un, id) => {
+  // console.log(un)
   const res = { data: '', status: 200 }
   try {
     const val = await axios.get(`${SERVER}/f/follower?id=${id}&un=${un}`)

@@ -43,7 +43,18 @@ const Profile = ({ route, navigation }) => {
     }
   }
 
-  const handleFollow = () => {}
+  const handleFollowNav = tn => {
+    // console.log(route)
+    let destScreen = 'FollowersHome'
+    if (route.name === 'ProfileS' || route.name === 'FollowerProfile')
+      destScreen = 'FollowersP'
+
+    navigation.push(destScreen, {
+      tn,
+      screen: route.name,
+      un: userData.current.userName,
+    })
+  }
 
   return Boolean(userData.current) ? (
     <View style={globalStyles.container}>
@@ -102,7 +113,7 @@ const Profile = ({ route, navigation }) => {
               icon='account-edit'
               style={{ marginTop: 15, paddingHorizontal: 2 }}
               color='#0092d6'
-              onPress={handleFollow}
+              onPress={() => {}}
             >
               {userData.current.fname ? 'Follow' : 'Following'}
             </Button>
@@ -120,7 +131,7 @@ const Profile = ({ route, navigation }) => {
         color='orange'
         onPress={() => {
           if (self.current) {
-            navigation.navigate('MyPosts', {
+            navigation.navigate('PostsP', {
               un: userData.current.userName,
             })
           } else {
@@ -137,7 +148,7 @@ const Profile = ({ route, navigation }) => {
         icon='account-arrow-right'
         style={styles.btn}
         color='orange'
-        onPress={() => navigation.navigate('Followers', { tn: 'fr' })}
+        onPress={() => handleFollowNav('fr')}
       >
         Followers
       </Button>
@@ -145,7 +156,7 @@ const Profile = ({ route, navigation }) => {
         icon='account-arrow-left'
         style={styles.btn}
         color='orange'
-        onPress={() => navigation.navigate('Followers', { tn: 'fg' })}
+        onPress={() => handleFollowNav('fg')}
       >
         Following
       </Button>

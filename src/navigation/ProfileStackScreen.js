@@ -24,7 +24,7 @@ const ProfileStackScreen = () => {
           options={{ title: userInfo.name }}
         />
         <ProfileStack.Screen
-          name='MyPosts'
+          name='PostsP'
           component={Posts}
           options={{ title: 'My Posts' }}
         />
@@ -39,7 +39,7 @@ const ProfileStackScreen = () => {
           // options={{ title: 'My Posts' }}
         />
         <ProfileStack.Screen
-          name='Followers'
+          name='FollowersP'
           component={Followers}
           // options={{ title: 'My Posts' }}
         />
