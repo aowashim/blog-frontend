@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
+import HomeHeader from '../components/HomeHeader'
 import CreatePost from '../screens/CreatePost'
 import Followers from '../screens/Followers'
 import Posts from '../screens/Posts'
@@ -8,11 +9,12 @@ const HomeStack = createStackNavigator()
 
 const HomeStackScreen = () => {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator /*screenOptions={{ headerShown: false }}*/>
       <HomeStack.Screen
         name='HomeS'
         component={Posts}
-        options={{ title: 'Home' }}
+        // options={{ headerTitle: () => <HomeHeader /> }}
+        options={{ headerTitleStyle: { display: 'none' } }}
       />
       <HomeStack.Screen name='Post' component={CreatePost} />
       <HomeStack.Screen

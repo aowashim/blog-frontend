@@ -26,7 +26,12 @@ const ProfileStackScreen = () => {
         <ProfileStack.Screen
           name='PostsP'
           component={Posts}
-          options={{ title: 'My Posts' }}
+          options={({ route }) => ({
+            title:
+              route.params.un === userInfo.uname
+                ? 'My Posts'
+                : `${route.params.name}'s posts`,
+          })}
         />
         <ProfileStack.Screen
           name='Bookmarks'

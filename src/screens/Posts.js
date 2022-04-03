@@ -1,12 +1,15 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
 import { Button, FAB } from 'react-native-paper'
+import HomeHeader from '../components/HomeHeader'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
 import Post from '../components/Post'
+import SelectModal from '../components/SelectModal'
 import {
   addBookMark,
   getAllPost,
+  getFollowingPosts,
   getUserPosts,
   rmvBookMark,
 } from '../helpers/callApi'
@@ -18,20 +21,47 @@ const Posts = props => {
   const morePost = useRef(true)
   const [pull, setPull] = useState(false)
   const lastPost = useRef(99999)
+  const fromAll = useRef(true)
   const [refresh, setRefresh] = useState(false)
   const { userInfo } = useContext(UserContext)
+  const [showModal, setShowModal] = useState(false)
+  const [colorModalBtn, setColorModalBtn] = useState(true)
 
   useEffect(() => {
     handleNewPosts()
-  }, [userInfo.user])
+  }, [userInfo.user, fromAll.current])
+
+  // function to switch between following post and all posts
+  const handleViewPost = val => {
+    if (fromAll.current !== val) {
+      morePost.current = true
+      posts.current = []
+      fromAll.current = val
+      setColorModalBtn(!colorModalBtn)
+    }
+    setShowModal(false)
+  }
+
+  // customizing Home screen to select post from followers and all
+  if (props.route.name === 'HomeS') {
+    useLayoutEffect(() => {
+      props.navigation.setOptions({
+        headerLeft: () => <HomeHeader openModal={() => setShowModal(true)} />,
+      })
+    }, [])
+  }
 
   const handleNewPosts = async () => {
     let res
-    if (props.route.params?.un) {
-      // console.log(props.route.params?.un)
-      res = await getUserPosts(99999, userInfo.token, props.route.params.un)
+
+    if (fromAll.current) {
+      if (props.route.params?.un) {
+        res = await getUserPosts(99999, userInfo.token, props.route.params.un)
+      } else {
+        res = await getAllPost(99999, userInfo.token)
+      }
     } else {
-      res = await getAllPost(99999, userInfo.token)
+      res = await getFollowingPosts(99999, userInfo.token)
     }
 
     if (res.status !== 400) {
@@ -49,17 +79,20 @@ const Posts = props => {
   const handlePosts = async isPulled => {
     if (!morePost.current) return
 
-    // const res = await getAllPost(lastPost.current, userInfo.token)
-
     let res
-    if (props.route.params?.un) {
-      res = await getUserPosts(
-        lastPost.current,
-        userInfo.token,
-        props.route.params.un
-      )
+
+    if (fromAll.current) {
+      if (props.route.params?.un) {
+        res = await getUserPosts(
+          lastPost.current,
+          userInfo.token,
+          props.route.params.un
+        )
+      } else {
+        res = await getAllPost(lastPost.current, userInfo.token)
+      }
     } else {
-      res = await getAllPost(lastPost.current, userInfo.token)
+      res = await getFollowingPosts(lastPost.current, userInfo.token)
     }
 
     if (res.status !== 400) {
@@ -146,9 +179,17 @@ const Posts = props => {
         <FAB
           style={styles.fab}
           icon='pen-plus'
+          // color='grey'
           onPress={() => props.navigation.navigate('Post')}
         />
       )}
+
+      <SelectModal
+        show={showModal}
+        closeModal={() => setShowModal(false)}
+        handleViewPost={handleViewPost}
+        all={colorModalBtn}
+      />
     </View>
   ) : (
     <Loading txt='Getting posts...' />
@@ -158,12 +199,14 @@ const Posts = props => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 5,
+    height: '100%',
   },
   fab: {
     position: 'absolute',
     margin: 16,
     right: 0,
     bottom: 0,
+    backgroundColor: '#115a69',
   },
 })
 

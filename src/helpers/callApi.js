@@ -134,6 +134,28 @@ export const getUserPosts = async (lastPost, token, un) => {
   return res
 }
 
+export const getFollowingPosts = async (lastPost, token) => {
+  const res = { data: '', status: 200 }
+  try {
+    const val = await axios.get(
+      `${SERVER}/post/auth/following?id=${lastPost}`,
+      {
+        headers: {
+          'x-auth-token': token,
+        },
+      }
+    )
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
+}
+
 export const createPost = async (values, token) => {
   const res = { data: '', status: 200 }
   try {
@@ -260,4 +282,40 @@ export const getFollowing = async (un, id) => {
   }
 
   return res
+}
+
+export const addFollowing = async (token, fn) => {
+  try {
+    const val = await axios.post(
+      `${SERVER}/f/add`,
+      {
+        fn,
+      },
+      {
+        headers: {
+          'x-auth-token': token,
+        },
+      }
+    )
+    return val.status
+  } catch (error) {
+    return error.response.status
+  }
+}
+
+export const removeFollowing = async (token, fn) => {
+  try {
+    const val = await axios.delete(`${SERVER}/f/remove`, {
+      headers: {
+        'x-auth-token': token,
+      },
+      data: {
+        fn,
+      },
+    })
+    return val.status
+  } catch (error) {
+    // console.log(error.response.data)
+    return error.response.status
+  }
 }

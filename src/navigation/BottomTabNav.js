@@ -31,6 +31,7 @@ const BottomTabNav = props => {
           }
         },
         headerShown: false,
+        tabBarShowLabel: false,
       })}
     >
       <Tab.Screen

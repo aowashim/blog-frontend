@@ -1,6 +1,6 @@
 import { ActivityIndicator, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 
 const ListFooter = ({ data }) => {
   return data ? (
@@ -14,12 +14,9 @@ const ListFooter = ({ data }) => {
         paddingBottom: 5,
       }}
     >
-      <Text style={{ marginRight: 5 }}>You have seen all the posts</Text>
-      <MaterialCommunityIcons
-        name='thumb-up-outline'
-        size={20}
-        color='orange'
-      />
+      <Entypo name='dot-single' size={30} color='grey' />
+      <Entypo name='dot-single' size={30} color='grey' />
+      <Entypo name='dot-single' size={30} color='grey' />
     </View>
   )
 }

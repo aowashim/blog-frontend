@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import { Avatar, Button, Divider, Text } from 'react-native-paper'
 import Loading from '../components/Loading'
 import { removeValue } from '../helpers/asyncStorage'
-import { getUserInfo } from '../helpers/callApi'
+import { addFollowing, getUserInfo, removeFollowing } from '../helpers/callApi'
 import { globalStyles } from '../helpers/globalStyles'
 import UserContext from '../store/UserContext'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -43,8 +43,24 @@ const Profile = ({ route, navigation }) => {
     }
   }
 
+  const handleFollow = async () => {
+    if (userData.current.fname) {
+      const res = await removeFollowing(
+        userInfo.token,
+        userData.current.userName
+      )
+
+      userData.current.fname = false
+      setRefresh(!refresh)
+    } else {
+      const res = await addFollowing(userInfo.token, userData.current.userName)
+
+      userData.current.fname = true
+      setRefresh(!refresh)
+    }
+  }
+
   const handleFollowNav = tn => {
-    // console.log(route)
     let destScreen = 'FollowersHome'
     if (route.name === 'ProfileS' || route.name === 'FollowerProfile')
       destScreen = 'FollowersP'
@@ -53,6 +69,18 @@ const Profile = ({ route, navigation }) => {
       tn,
       screen: route.name,
       un: userData.current.userName,
+    })
+  }
+
+  const handlePostNav = () => {
+    const name = userData.current.name.split(' ')[0]
+    let destScreen = 'UserPosts'
+    if (route.name === 'ProfileS' || route.name === 'FollowerProfile')
+      destScreen = 'PostsP'
+
+    navigation.push(destScreen, {
+      un: userData.current.userName,
+      name,
     })
   }
 
@@ -113,9 +141,9 @@ const Profile = ({ route, navigation }) => {
               icon='account-edit'
               style={{ marginTop: 15, paddingHorizontal: 2 }}
               color='#0092d6'
-              onPress={() => {}}
+              onPress={handleFollow}
             >
-              {userData.current.fname ? 'Follow' : 'Following'}
+              {userData.current.fname ? 'Following' : 'Follow'}
             </Button>
           )}
         </View>
@@ -129,18 +157,7 @@ const Profile = ({ route, navigation }) => {
         icon='book-open-page-variant'
         style={styles.btn}
         color='orange'
-        onPress={() => {
-          if (self.current) {
-            navigation.navigate('PostsP', {
-              un: userData.current.userName,
-            })
-          } else {
-            navigation.navigate('UserPosts', {
-              un: userData.current.userName,
-              name: userData.current.name.split(' ')[0],
-            })
-          }
-        }}
+        onPress={handlePostNav}
       >
         {self.current ? 'My Posts' : 'Posts'}
       </Button>
