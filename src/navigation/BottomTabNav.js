@@ -3,6 +3,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import ProfileStackScreen from './ProfileStackScreen'
 import HomeStackScreen from './HomeStackScreen'
 import Loading from '../components/Loading'
+import { Feather } from '@expo/vector-icons'
+import SearchStackScreen from './SearchStackScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -28,6 +30,8 @@ const BottomTabNav = props => {
             return (
               <MaterialCommunityIcons name={iconName} size={30} color={color} />
             )
+          } else if (route.name === 'Search') {
+            return <Feather name='search' size={28} color={color} />
           }
         },
         headerShown: false,
@@ -38,6 +42,7 @@ const BottomTabNav = props => {
         name='Home'
         component={props.loading ? GettingToken : HomeStackScreen}
       />
+      <Tab.Screen name='Search' component={SearchStackScreen} />
       <Tab.Screen
         name='Profile'
         //options={{ unmountOnBlur: true }}

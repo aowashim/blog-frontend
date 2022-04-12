@@ -1,7 +1,7 @@
 import axios from 'axios'
 //import { SERVER } from '@env'
 
-const SERVER = 'http://192.168.236.66:5000'
+const SERVER = 'http://10.55.9.85:5000'
 
 export const registerUser = async values => {
   const res = { data: '', status: 200 }
