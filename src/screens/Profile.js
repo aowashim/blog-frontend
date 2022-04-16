@@ -61,24 +61,20 @@ const Profile = ({ route, navigation }) => {
   }
 
   const handleFollowNav = tn => {
-    let destScreen = 'FollowersHome'
-    if (route.name === 'ProfileS' || route.name === 'FollowerProfile')
-      destScreen = 'FollowersP'
+    // let destScreen = 'FollowersHome'
+    // if (route.name === 'ProfileS' || route.name === 'FollowerProfile')
+    //   destScreen = 'FollowersP'
 
-    navigation.push(destScreen, {
+    navigation.push('FollowerStack', {
       tn,
-      screen: route.name,
       un: userData.current.userName,
     })
   }
 
   const handlePostNav = () => {
     const name = userData.current.name.split(' ')[0]
-    let destScreen = 'UserPosts'
-    if (route.name === 'ProfileS' || route.name === 'FollowerProfile')
-      destScreen = 'PostsP'
 
-    navigation.push(destScreen, {
+    navigation.push('PostStack', {
       un: userData.current.userName,
       name,
     })

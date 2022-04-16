@@ -41,13 +41,13 @@ const Followers = props => {
   }
 
   const handleFollowerProfile = async (uname, name) => {
-    let destScreen = 'ViewProfile'
-    const curScreen = props.route.params.screen
-    // console.log(curScreen)
-    if (curScreen === 'ProfileS' || curScreen === 'FollowerProfile')
-      destScreen = 'FollowerProfile'
+    // let destScreen = 'ViewProfile'
+    // const curScreen = props.route.params.screen
+    // // console.log(curScreen)
+    // if (curScreen === 'ProfileS' || curScreen === 'FollowerProfile')
+    //   destScreen = 'FollowerProfile'
 
-    props.navigation.push(destScreen, {
+    props.navigation.push('ProfileStack', {
       uname,
       name,
     })

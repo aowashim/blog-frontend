@@ -1,7 +1,7 @@
 import axios from 'axios'
 //import { SERVER } from '@env'
 
-const SERVER = 'http://10.55.9.85:5000'
+const SERVER = 'http://10.55.10.96:5000'
 
 export const registerUser = async values => {
   const res = { data: '', status: 200 }
@@ -318,4 +318,19 @@ export const removeFollowing = async (token, fn) => {
     // console.log(error.response.data)
     return error.response.status
   }
+}
+
+export const getSearchPost = async (pid, key) => {
+  const res = { data: '', status: 200 }
+  try {
+    const val = await axios.get(`${SERVER}/s/post?pid=${pid}&key=${key}`)
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
 }

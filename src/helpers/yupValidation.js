@@ -48,3 +48,7 @@ export const postValidation = yup.object({
     .matches(regExAssamese, 'Only Assamese characters are allowed.')
     .max(500, 'Description must be less than 500 characters.'),
 })
+
+export const searchValidation = yup.object({
+  searchQuery: yup.string().required('This field is required.'),
+})

@@ -10,6 +10,7 @@ import {
   addBookMark,
   getAllPost,
   getFollowingPosts,
+  getSearchPost,
   getUserPosts,
   rmvBookMark,
 } from '../helpers/callApi'
@@ -43,7 +44,7 @@ const Posts = props => {
   }
 
   // customizing Home screen to select post from followers and all
-  if (props.route.name === 'HomeS') {
+  if (props.route.name === 'HomeStack') {
     useLayoutEffect(() => {
       props.navigation.setOptions({
         headerLeft: () => <HomeHeader openModal={() => setShowModal(true)} />,
@@ -53,12 +54,18 @@ const Posts = props => {
 
   const handleNewPosts = async () => {
     let res
+    const key = props.route.params?.search
+    const un = props.route.params?.un
 
     if (fromAll.current) {
-      if (props.route.params?.un) {
-        res = await getUserPosts(99999, userInfo.token, props.route.params.un)
+      if (key) {
+        res = await getSearchPost(99999, key)
       } else {
-        res = await getAllPost(99999, userInfo.token)
+        if (un) {
+          res = await getUserPosts(99999, userInfo.token, un)
+        } else {
+          res = await getAllPost(99999, userInfo.token)
+        }
       }
     } else {
       res = await getFollowingPosts(99999, userInfo.token)
@@ -80,16 +87,18 @@ const Posts = props => {
     if (!morePost.current) return
 
     let res
+    const key = props.route.params?.search
+    const un = props.route.params?.un
 
     if (fromAll.current) {
-      if (props.route.params?.un) {
-        res = await getUserPosts(
-          lastPost.current,
-          userInfo.token,
-          props.route.params.un
-        )
+      if (key) {
+        res = await getSearchPost(lastPost.current, key)
       } else {
-        res = await getAllPost(lastPost.current, userInfo.token)
+        if (un) {
+          res = await getUserPosts(lastPost.current, userInfo.token, un)
+        } else {
+          res = await getAllPost(lastPost.current, userInfo.token)
+        }
       }
     } else {
       res = await getFollowingPosts(lastPost.current, userInfo.token)
@@ -180,7 +189,7 @@ const Posts = props => {
           style={styles.fab}
           icon='pen-plus'
           // color='grey'
-          onPress={() => props.navigation.navigate('Post')}
+          onPress={() => props.navigation.navigate('CreatePost')}
         />
       )}
 

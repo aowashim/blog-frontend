@@ -13,7 +13,7 @@ import { useColorScheme } from 'react-native'
 import UserContext from './src/store/UserContext'
 import { useEffect, useMemo, useState } from 'react'
 import { getData } from './src/helpers/asyncStorage'
-import BottomTabNav from './src/navigation/BottomTabNav'
+import AllStackScreen from './src/navigation/AllStackScreen'
 
 const MyDarkThemeNav = {
   ...NavDarkTheme,
@@ -87,7 +87,7 @@ const App = () => {
           style={scheme === 'dark' ? 'light' : 'dark'}
         />
         <UserContext.Provider value={val}>
-          <BottomTabNav loading={loading} />
+          <AllStackScreen loading={loading} />
         </UserContext.Provider>
       </PaperProvider>
     </NavigationContainer>

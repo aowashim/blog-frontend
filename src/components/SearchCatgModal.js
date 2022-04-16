@@ -1,7 +1,7 @@
 import { Modal, Pressable, View } from 'react-native'
 import { Button, Divider, Text } from 'react-native-paper'
 
-const SelectModal = props => {
+const SearchCatgModal = props => {
   const scheme = 'dark'
 
   return (
@@ -34,7 +34,7 @@ const SelectModal = props => {
         }}
       >
         <Text style={{ textAlign: 'center', marginBottom: 8, fontSize: 14 }}>
-          View posts from
+          Select search option
         </Text>
         <Divider
           style={{
@@ -44,22 +44,31 @@ const SelectModal = props => {
         />
         <Button
           style={{ marginTop: 5 }}
-          icon='account-supervisor'
-          color={props.all ? 'orange' : 'white'}
-          onPress={() => props.handleViewPost(true)}
+          color='white'
+          onPress={() => props.handleSearchOption('Post by title')}
         >
-          All
+          Post by title
         </Button>
         <Button
-          icon='star'
-          color={props.all ? 'white' : 'orange'}
-          onPress={() => props.handleViewPost(false)}
+          color='white'
+          onPress={() => props.handleSearchOption('Post by category')}
         >
-          Following
+          Post by category
+        </Button>
+        <Button
+          color='white'
+          onPress={() => props.handleSearchOption('People by name')}
+        >
+          People by name
+        </Button>
+        <Button
+          color='white'
+          onPress={() => props.handleSearchOption('People by username')}
+        >
+          People by username
         </Button>
         <Button
           style={{ marginBottom: 10 }}
-          icon='cancel'
           color='white'
           onPress={props.closeModal}
         >
@@ -70,4 +79,4 @@ const SelectModal = props => {
   )
 }
 
-export default SelectModal
+export default SearchCatgModal

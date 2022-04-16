@@ -8,18 +8,22 @@ const Post = props => {
   const { userInfo } = useContext(UserContext)
 
   const handleNav = () => {
-    if (props.home) {
-      if (userInfo.uname === props.item.userName) {
-        props.navigation.navigate('Profile')
-      } else {
-        props.navigation.navigate('ViewProfile', {
-          uname: props.item.userName,
-          name: props.item.name,
-        })
-      }
-    } else {
-      props.navigation.pop()
-    }
+    props.navigation.push('ProfileStack', {
+      uname: props.item.userName,
+      name: props.item.name,
+    })
+    // if (props.home) {
+    //   if (userInfo.uname === props.item.userName) {
+    //     props.navigation.navigate('Profile')
+    //   } else {
+    //     props.navigation.navigate('ViewProfile', {
+    //       uname: props.item.userName,
+    //       name: props.item.name,
+    //     })
+    //   }
+    // } else {
+    //   props.navigation.pop()
+    // }
   }
 
   return (

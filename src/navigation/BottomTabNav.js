@@ -1,12 +1,46 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import ProfileStackScreen from './ProfileStackScreen'
-import HomeStackScreen from './HomeStackScreen'
 import Loading from '../components/Loading'
 import { Feather } from '@expo/vector-icons'
-import SearchStackScreen from './SearchStackScreen'
+import Search from '../screens/Search'
+import TempScree from '../screens/TempScree'
+import { createStackNavigator } from '@react-navigation/stack'
+import Posts from '../screens/Posts'
+import CreatePost from '../screens/CreatePost'
 
 const Tab = createBottomTabNavigator()
+const SearchStack = createStackNavigator()
+const HomeStack = createStackNavigator()
+
+const SearchStackScreen = () => {
+  return (
+    <SearchStack.Navigator screenOptions={{ animationEnabled: false }}>
+      <SearchStack.Screen
+        name='SearchStack'
+        component={Search}
+        options={{ title: 'Find posts and people' }}
+      />
+    </SearchStack.Navigator>
+  )
+}
+
+const HomeStackScreen = () => {
+  return (
+    <HomeStack.Navigator screenOptions={{ animationEnabled: false }}>
+      <HomeStack.Screen
+        name='HomeStack'
+        component={Posts}
+        options={{ headerTitleStyle: { display: 'none' } }}
+      />
+      <HomeStack.Screen
+        name='CreatePost'
+        component={CreatePost}
+        options={{ title: 'Create post' }}
+      />
+    </HomeStack.Navigator>
+  )
+}
 
 const GettingToken = () => {
   return <Loading txt='' />

@@ -24,16 +24,6 @@ const ProfileStackScreen = () => {
           options={{ title: userInfo.name }}
         />
         <ProfileStack.Screen
-          name='PostsP'
-          component={Posts}
-          options={({ route }) => ({
-            title:
-              route.params.un === userInfo.uname
-                ? 'My Posts'
-                : `${route.params.name}'s posts`,
-          })}
-        />
-        <ProfileStack.Screen
           name='Bookmarks'
           component={Bookmarks}
           // options={{ title: 'My Posts' }}
@@ -42,18 +32,6 @@ const ProfileStackScreen = () => {
           name='SinglePost'
           component={SinglePost}
           // options={{ title: 'My Posts' }}
-        />
-        <ProfileStack.Screen
-          name='FollowersP'
-          component={Followers}
-          // options={{ title: 'My Posts' }}
-        />
-        <ProfileStack.Screen
-          name='FollowerProfile'
-          component={Profile}
-          options={({ route }) => ({
-            title: route.params.name,
-          })}
         />
       </ProfileStack.Navigator>
     )
