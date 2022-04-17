@@ -15,7 +15,7 @@ const HomeStack = createStackNavigator()
 
 const SearchStackScreen = () => {
   return (
-    <SearchStack.Navigator screenOptions={{ animationEnabled: false }}>
+    <SearchStack.Navigator>
       <SearchStack.Screen
         name='SearchStack'
         component={Search}
@@ -27,7 +27,7 @@ const SearchStackScreen = () => {
 
 const HomeStackScreen = () => {
   return (
-    <HomeStack.Navigator screenOptions={{ animationEnabled: false }}>
+    <HomeStack.Navigator>
       <HomeStack.Screen
         name='HomeStack'
         component={Posts}

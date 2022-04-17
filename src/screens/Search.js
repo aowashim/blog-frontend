@@ -17,9 +17,15 @@ const Search = props => {
 
   const handleSearchResult = key => {
     if (searchOption === 'Post by title') {
-      props.navigation.push('PostsP', {
+      props.navigation.push('PostStack', {
         search: key,
-        name: 'Search',
+        title: `Results for '${key}'`,
+      })
+    } else if (searchOption === 'People by name') {
+      props.navigation.push('FollowerStack', {
+        tn: 'sr',
+        key,
+        title: `Results for '${key}'`,
       })
     }
   }
@@ -46,7 +52,7 @@ const Search = props => {
         validationSchema={searchValidation}
         onSubmit={(values, action) => {
           handleSearchResult(values.searchQuery)
-          //action.resetForm()
+          // action.resetForm()
         }}
       >
         {({

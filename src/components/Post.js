@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Image, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import { Avatar, Divider, Headline, Paragraph, Text } from 'react-native-paper'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import UserContext from '../store/UserContext'
@@ -8,10 +8,21 @@ const Post = props => {
   const { userInfo } = useContext(UserContext)
 
   const handleNav = () => {
+    const uname = props.item.userName
+
+    if (uname === userInfo.uname) {
+      ToastAndroid.show(
+        'Please visit profile tab to access your own profile.',
+        ToastAndroid.LONG
+      )
+      return
+    }
+
     props.navigation.push('ProfileStack', {
-      uname: props.item.userName,
+      uname,
       name: props.item.name,
     })
+
     // if (props.home) {
     //   if (userInfo.uname === props.item.userName) {
     //     props.navigation.navigate('Profile')

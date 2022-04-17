@@ -17,7 +17,7 @@ const ProfileStackScreen = () => {
 
   if (userInfo.user) {
     return (
-      <ProfileStack.Navigator screenOptions={{ animationEnabled: false }}>
+      <ProfileStack.Navigator>
         <ProfileStack.Screen
           name='ProfileS'
           component={Profile}
@@ -37,7 +37,7 @@ const ProfileStackScreen = () => {
     )
   } else {
     return (
-      <ProfileStack.Navigator screenOptions={{ animationEnabled: false }}>
+      <ProfileStack.Navigator>
         <ProfileStack.Screen
           name='SignIn'
           component={SignIn}

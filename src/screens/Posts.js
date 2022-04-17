@@ -1,6 +1,6 @@
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
-import { Button, FAB } from 'react-native-paper'
+import { FAB } from 'react-native-paper'
 import HomeHeader from '../components/HomeHeader'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
@@ -14,7 +14,6 @@ import {
   getUserPosts,
   rmvBookMark,
 } from '../helpers/callApi'
-import { globalStyles } from '../helpers/globalStyles'
 import UserContext from '../store/UserContext'
 
 const Posts = props => {

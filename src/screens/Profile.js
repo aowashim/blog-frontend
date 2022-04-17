@@ -61,13 +61,12 @@ const Profile = ({ route, navigation }) => {
   }
 
   const handleFollowNav = tn => {
-    // let destScreen = 'FollowersHome'
-    // if (route.name === 'ProfileS' || route.name === 'FollowerProfile')
-    //   destScreen = 'FollowersP'
+    const title = tn === 'fr' ? 'Followers' : 'Following'
 
     navigation.push('FollowerStack', {
       tn,
       un: userData.current.userName,
+      title,
     })
   }
 
@@ -76,7 +75,7 @@ const Profile = ({ route, navigation }) => {
 
     navigation.push('PostStack', {
       un: userData.current.userName,
-      name,
+      title: `${name}'s posts`,
     })
   }
 

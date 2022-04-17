@@ -12,7 +12,7 @@ const AllStackScreen = props => {
   const { userInfo } = useContext(UserContext)
 
   return (
-    <AllStack.Navigator screenOptions={{ animationEnabled: false }}>
+    <AllStack.Navigator>
       <AllStack.Screen
         name='TabStack'
         component={BottomTabNav}
@@ -25,7 +25,7 @@ const AllStackScreen = props => {
           title:
             route.params.un === userInfo.uname
               ? 'My Posts'
-              : `${route.params.name}'s posts`,
+              : route.params.title,
         })}
       />
       <AllStack.Screen
@@ -38,7 +38,9 @@ const AllStackScreen = props => {
       <AllStack.Screen
         name='FollowerStack'
         component={Followers}
-        options={{ title: 'Followers' }}
+        options={({ route }) => ({
+          title: route.params.title,
+        })}
       />
     </AllStack.Navigator>
   )

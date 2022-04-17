@@ -4,7 +4,7 @@ import { Button, Text } from 'react-native-paper'
 import Follower from '../components/Follower'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
-import { getFollowers, getFollowing } from '../helpers/callApi'
+import { getFollowers, getFollowing, getSearchUser } from '../helpers/callApi'
 import UserContext from '../store/UserContext'
 
 const Followers = props => {
@@ -22,10 +22,14 @@ const Followers = props => {
 
   const handleNewFollowers = async () => {
     let res
-    if (props.route.params.tn === 'fr') {
+    const tn = props.route.params.tn
+
+    if (tn === 'fr') {
       res = await getFollowers(props.route.params.un, 99999)
-    } else {
+    } else if (tn === 'fg') {
       res = await getFollowing(props.route.params.un, 99999)
+    } else {
+      res = await getSearchUser(99999, props.route.params.key)
     }
 
     if (res.status !== 400) {
@@ -41,42 +45,32 @@ const Followers = props => {
   }
 
   const handleFollowerProfile = async (uname, name) => {
-    // let destScreen = 'ViewProfile'
-    // const curScreen = props.route.params.screen
-    // // console.log(curScreen)
-    // if (curScreen === 'ProfileS' || curScreen === 'FollowerProfile')
-    //   destScreen = 'FollowerProfile'
+    if (uname === userInfo.uname) {
+      ToastAndroid.show(
+        'Please visit profile tab to access your own profile.',
+        ToastAndroid.LONG
+      )
+      return
+    }
 
     props.navigation.push('ProfileStack', {
       uname,
       name,
     })
-
-    // if (curScreen === 'ProfileS' || curScreen === 'FollowerProfile') {
-    //   props.navigation.navigate('FollowerProfile', {
-    //     uname,
-    //     name,
-    //   })
-    // } else {
-    //   props.navigation.navigate('ViewProfile', {
-    //     uname,
-    //     name,
-    //   })
-    // }
   }
 
   const handleGetFollowers = async isPulled => {
     if (!more.current) return
 
-    // if (!isPulled) {
-    //   console.log('called')
-    // }
-
     let res
-    if (props.route.params.tn === 'fr') {
+    const tn = props.route.params.tn
+
+    if (tn === 'fr') {
       res = await getFollowers(props.route.params.un, last.current)
-    } else {
+    } else if (tn === 'fg') {
       res = await getFollowing(props.route.params.un, last.current)
+    } else {
+      res = await getSearchUser(last.current, props.route.params.key)
     }
 
     if (res.status !== 400) {
