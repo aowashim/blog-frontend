@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, ToastAndroid, View } from 'react-native'
 import { Text, TextInput, Button, IconButton } from 'react-native-paper'
 import { Formik } from 'formik'
 import { postValidation } from '../helpers/yupValidation'
@@ -13,7 +13,7 @@ import { uploadToCloud } from '../helpers/uploadToCloud'
 import UserContext from '../store/UserContext'
 import Loading from '../components/Loading'
 
-const CreatePost = () => {
+const CreatePost = props => {
   const [dp, setDp] = useState('')
   const [modalPicImage, setModalPicImage] = useState(false)
   const [posting, setPosting] = useState(false)
@@ -46,7 +46,9 @@ const CreatePost = () => {
       userInfo.token
     )
 
+    ToastAndroid.show('Post created successfully.', ToastAndroid.LONG)
     setPosting(false)
+    props.navigation.goBack()
   }
 
   const handleImage = async (val, isDp) => {

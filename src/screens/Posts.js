@@ -6,38 +6,49 @@ import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
 import Post from '../components/Post'
 import SelectModal from '../components/SelectModal'
+import { getSearchPost } from '../helpers/Api/search'
 import {
   addBookMark,
   getAllPost,
   getFollowingPosts,
-  getSearchPost,
   getUserPosts,
   rmvBookMark,
 } from '../helpers/callApi'
+import { MAX_ID } from '../helpers/constants'
 import UserContext from '../store/UserContext'
 
 const Posts = props => {
   const posts = useRef([])
   const morePost = useRef(true)
   const [pull, setPull] = useState(false)
-  const lastPost = useRef(99999)
-  const fromAll = useRef(true)
+  const lastPost = useRef(MAX_ID)
+  // const fromAll = useRef(true)
   const [refresh, setRefresh] = useState(false)
   const { userInfo } = useContext(UserContext)
   const [showModal, setShowModal] = useState(false)
-  const [colorModalBtn, setColorModalBtn] = useState(true)
+  const [fromAll, setFromAll] = useState(true)
 
   useEffect(() => {
     handleNewPosts()
-  }, [userInfo.user, fromAll.current])
+  }, [userInfo.user, fromAll])
 
   // function to switch between following post and all posts
   const handleViewPost = val => {
-    if (fromAll.current !== val) {
-      morePost.current = true
-      posts.current = []
-      fromAll.current = val
-      setColorModalBtn(!colorModalBtn)
+    if (val === 'a') {
+      if (!fromAll) {
+        morePost.current = true
+        posts.current = []
+        setFromAll(true)
+      }
+    } else {
+      if (!userInfo.user) {
+        ToastAndroid.show('Please login to filter posts.', ToastAndroid.SHORT)
+        setShowModal(false)
+      } else if (fromAll) {
+        morePost.current = true
+        posts.current = []
+        setFromAll(false)
+      }
     }
     setShowModal(false)
   }
@@ -56,18 +67,25 @@ const Posts = props => {
     const key = props.route.params?.search
     const un = props.route.params?.un
 
-    if (fromAll.current) {
+    // called when user logs out and he is viewing posts from followers
+    // it redirects users to view all posts
+    if (!userInfo.user && !fromAll) {
+      setFromAll(true)
+      setRefresh(!refresh)
+    }
+
+    if (fromAll) {
       if (key) {
-        res = await getSearchPost(99999, key)
+        res = await getSearchPost(MAX_ID, key)
       } else {
         if (un) {
-          res = await getUserPosts(99999, userInfo.token, un)
+          res = await getUserPosts(MAX_ID, userInfo.token, un)
         } else {
-          res = await getAllPost(99999, userInfo.token)
+          res = await getAllPost(MAX_ID, userInfo.token)
         }
       }
     } else {
-      res = await getFollowingPosts(99999, userInfo.token)
+      res = await getFollowingPosts(MAX_ID, userInfo.token)
     }
 
     if (res.status !== 400) {
@@ -89,7 +107,7 @@ const Posts = props => {
     const key = props.route.params?.search
     const un = props.route.params?.un
 
-    if (fromAll.current) {
+    if (fromAll) {
       if (key) {
         res = await getSearchPost(lastPost.current, key)
       } else {
@@ -152,7 +170,7 @@ const Posts = props => {
   const handleRefresh = async () => {
     setPull(true)
     morePost.current = true
-    lastPost.current = 99999
+    lastPost.current = MAX_ID
     posts.current = []
     await handlePosts(true)
     setPull(false)
@@ -196,7 +214,7 @@ const Posts = props => {
         show={showModal}
         closeModal={() => setShowModal(false)}
         handleViewPost={handleViewPost}
-        all={colorModalBtn}
+        all={fromAll}
       />
     </View>
   ) : (

@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import Followers from '../screens/Followers'
 import Posts from '../screens/Posts'
 import Profile from '../screens/Profile'
+import SinglePost from '../screens/SinglePost'
 import UserContext from '../store/UserContext'
 import BottomTabNav from './BottomTabNav'
 
@@ -38,6 +39,13 @@ const AllStackScreen = props => {
       <AllStack.Screen
         name='FollowerStack'
         component={Followers}
+        options={({ route }) => ({
+          title: route.params.title,
+        })}
+      />
+      <AllStack.Screen
+        name='SinglePost'
+        component={SinglePost}
         options={({ route }) => ({
           title: route.params.title,
         })}

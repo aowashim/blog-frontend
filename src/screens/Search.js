@@ -1,14 +1,16 @@
 import { Formik } from 'formik'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button, Text, TextInput } from 'react-native-paper'
 import SearchCatgModal from '../components/SearchCatgModal'
 import { globalStyles } from '../helpers/globalStyles'
 import { searchValidation } from '../helpers/yupValidation'
+import UserContext from '../store/UserContext'
 
 const Search = props => {
   const [searchOption, setSearchOption] = useState('Post by title')
   const [showModal, setShowModal] = useState(false)
+  const { userInfo } = useContext(UserContext)
 
   const handleSearchOption = option => {
     setSearchOption(option)
@@ -19,6 +21,8 @@ const Search = props => {
     if (searchOption === 'Post by title') {
       props.navigation.push('PostStack', {
         search: key,
+        // un: userInfo.uname,
+        un: 'yes',
         title: `Results for '${key}'`,
       })
     } else if (searchOption === 'People by name') {

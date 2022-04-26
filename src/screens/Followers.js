@@ -4,14 +4,16 @@ import { Button, Text } from 'react-native-paper'
 import Follower from '../components/Follower'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
-import { getFollowers, getFollowing, getSearchUser } from '../helpers/callApi'
+import { getSearchUser } from '../helpers/Api/search'
+import { getFollowers, getFollowing } from '../helpers/callApi'
+import { MAX_ID } from '../helpers/constants'
 import UserContext from '../store/UserContext'
 
 const Followers = props => {
   const followers = useRef([])
   const more = useRef(true)
   const [pull, setPull] = useState(false)
-  const last = useRef(99999)
+  const last = useRef(MAX_ID)
   const [refresh, setRefresh] = useState(false)
   const { userInfo } = useContext(UserContext)
   const [notFound, setNotFound] = useState(false)
@@ -25,11 +27,11 @@ const Followers = props => {
     const tn = props.route.params.tn
 
     if (tn === 'fr') {
-      res = await getFollowers(props.route.params.un, 99999)
+      res = await getFollowers(props.route.params.un, MAX_ID)
     } else if (tn === 'fg') {
-      res = await getFollowing(props.route.params.un, 99999)
+      res = await getFollowing(props.route.params.un, MAX_ID)
     } else {
-      res = await getSearchUser(99999, props.route.params.key)
+      res = await getSearchUser(MAX_ID, props.route.params.key)
     }
 
     if (res.status !== 400) {
@@ -91,7 +93,7 @@ const Followers = props => {
   const handleRefresh = async () => {
     setPull(true)
     more.current = true
-    last.current = 99999
+    last.current = MAX_ID
     followers.current = []
     await handleGetFollowers(true)
     // await handleNewBookmarks()

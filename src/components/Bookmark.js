@@ -6,7 +6,7 @@ const Bookmark = props => {
   return (
     <TouchableOpacity
       activeOpacity={0.6}
-      onPress={() => props.handleViewPost(props.item.pid)}
+      onPress={() => props.handleViewPost(props.item.pid, props.item.b_title)}
     >
       <View style={styles.cont}>
         <MaterialCommunityIcons

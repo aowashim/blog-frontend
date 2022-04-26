@@ -28,11 +28,6 @@ const ProfileStackScreen = () => {
           component={Bookmarks}
           // options={{ title: 'My Posts' }}
         />
-        <ProfileStack.Screen
-          name='SinglePost'
-          component={SinglePost}
-          // options={{ title: 'My Posts' }}
-        />
       </ProfileStack.Navigator>
     )
   } else {

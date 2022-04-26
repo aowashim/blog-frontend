@@ -12,13 +12,14 @@ import {
   getUserPosts,
   rmvBookMark,
 } from '../helpers/callApi'
+import { MAX_ID } from '../helpers/constants'
 import UserContext from '../store/UserContext'
 
 const Bookmarks = props => {
   const bookmarks = useRef([])
   const more = useRef(true)
   const [pull, setPull] = useState(false)
-  const last = useRef(99999)
+  const last = useRef(MAX_ID)
   const [refresh, setRefresh] = useState(false)
   const { userInfo } = useContext(UserContext)
 
@@ -27,7 +28,7 @@ const Bookmarks = props => {
   }, [])
 
   const handleNewBookmarks = async () => {
-    const res = await getBookmarks(userInfo.token, 99999)
+    const res = await getBookmarks(userInfo.token, MAX_ID)
 
     if (res.status !== 400) {
       last.current = res.data[res.data.length - 1].bid
@@ -41,8 +42,8 @@ const Bookmarks = props => {
     }
   }
 
-  const handleViewPost = async pid => {
-    props.navigation.navigate('SinglePost', { pid })
+  const handleViewPost = async (pid, title) => {
+    props.navigation.push('SinglePost', { pid, title })
   }
 
   const handleGetBookmarks = async isPulled => {
@@ -103,7 +104,7 @@ const Bookmarks = props => {
   const handleRefresh = async () => {
     setPull(true)
     more.current = true
-    last.current = 99999
+    last.current = MAX_ID
     bookmarks.current = []
     await handleGetBookmarks(true)
     // await handleNewBookmarks()

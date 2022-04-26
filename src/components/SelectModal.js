@@ -46,14 +46,14 @@ const SelectModal = props => {
           style={{ marginTop: 5 }}
           icon='account-supervisor'
           color={props.all ? 'orange' : 'white'}
-          onPress={() => props.handleViewPost(true)}
+          onPress={() => props.handleViewPost('a')}
         >
           All
         </Button>
         <Button
           icon='star'
           color={props.all ? 'white' : 'orange'}
-          onPress={() => props.handleViewPost(false)}
+          onPress={() => props.handleViewPost('f')}
         >
           Following
         </Button>
