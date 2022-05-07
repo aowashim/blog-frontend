@@ -31,7 +31,11 @@ const Followers = props => {
     } else if (tn === 'fg') {
       res = await getFollowing(props.route.params.un, MAX_ID)
     } else {
-      res = await getSearchUser(MAX_ID, props.route.params.key)
+      res = await getSearchUser(
+        MAX_ID,
+        props.route.params.key,
+        props.route.params.byName
+      )
     }
 
     if (res.status !== 400) {
@@ -72,7 +76,11 @@ const Followers = props => {
     } else if (tn === 'fg') {
       res = await getFollowing(props.route.params.un, last.current)
     } else {
-      res = await getSearchUser(last.current, props.route.params.key)
+      res = await getSearchUser(
+        last.current,
+        props.route.params.key,
+        props.route.params.byName
+      )
     }
 
     if (res.status !== 400) {

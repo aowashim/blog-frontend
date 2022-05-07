@@ -76,7 +76,7 @@ const Posts = props => {
 
     if (fromAll) {
       if (key) {
-        res = await getSearchPost(MAX_ID, key)
+        res = await getSearchPost(MAX_ID, key, props.route.params.byTitle)
       } else {
         if (un) {
           res = await getUserPosts(MAX_ID, userInfo.token, un)
@@ -109,7 +109,11 @@ const Posts = props => {
 
     if (fromAll) {
       if (key) {
-        res = await getSearchPost(lastPost.current, key)
+        res = await getSearchPost(
+          lastPost.current,
+          key,
+          props.route.params.byTitle
+        )
       } else {
         if (un) {
           res = await getUserPosts(lastPost.current, userInfo.token, un)

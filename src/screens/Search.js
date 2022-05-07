@@ -21,14 +21,29 @@ const Search = props => {
     if (searchOption === 'Post by title') {
       props.navigation.push('PostStack', {
         search: key,
-        // un: userInfo.uname,
         un: 'yes',
+        byTitle: true,
+        title: `Results for '${key}'`,
+      })
+    } else if (searchOption === 'Post by category') {
+      props.navigation.push('PostStack', {
+        search: key,
+        un: 'yes',
+        byTitle: false,
         title: `Results for '${key}'`,
       })
     } else if (searchOption === 'People by name') {
       props.navigation.push('FollowerStack', {
         tn: 'sr',
         key,
+        byName: true,
+        title: `Results for '${key}'`,
+      })
+    } else {
+      props.navigation.push('FollowerStack', {
+        tn: 'sr',
+        key,
+        byName: false,
         title: `Results for '${key}'`,
       })
     }

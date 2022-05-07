@@ -40,8 +40,6 @@ const CreatePost = props => {
         ...values,
         image,
         pdate,
-        location: '',
-        ip: '',
       },
       userInfo.token
     )
@@ -65,7 +63,7 @@ const CreatePost = props => {
   ) : (
     <ScrollView style={{ marginHorizontal: 10, marginVertical: 10 }}>
       <Formik
-        initialValues={{ title: '', description: '' }}
+        initialValues={{ title: '', description: '', url: '', catg: '' }}
         validationSchema={postValidation}
         onSubmit={(values, action) => {
           handlePost(values)
@@ -110,6 +108,38 @@ const CreatePost = props => {
               {errors.description && touched.description && (
                 <Text style={globalStyles.errorText}>
                   {touched.description && errors.description}
+                </Text>
+              )}
+            </View>
+
+            <View style={globalStyles.textIn}>
+              <TextInput
+                label='Url'
+                // mode='outlined'
+                placeholder='Enter url, include http...'
+                onChangeText={handleChange('url')}
+                onBlur={handleBlur('url')}
+                value={values.url}
+              />
+              {errors.url && touched.url && (
+                <Text style={globalStyles.errorText}>
+                  {touched.url && errors.url}
+                </Text>
+              )}
+            </View>
+
+            <View style={globalStyles.textIn}>
+              <TextInput
+                label='Category'
+                // mode='outlined'
+                placeholder='Enter Category...'
+                onChangeText={handleChange('catg')}
+                onBlur={handleBlur('catg')}
+                value={values.catg}
+              />
+              {errors.catg && touched.catg && (
+                <Text style={globalStyles.errorText}>
+                  {touched.catg && errors.catg}
                 </Text>
               )}
             </View>
