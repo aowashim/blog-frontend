@@ -38,6 +38,15 @@ export const signUpValidation = yup.object({
     .max(200, 'Must be less than 200 characters.'),
 })
 
+export const editProfileValidation = yup.object({
+  name: yup.string().required('Name is required.'),
+  city: yup.string().required('City is required.'),
+  about: yup
+    .string()
+    .required('About is required.')
+    .max(200, 'Must be less than 200 characters.'),
+})
+
 export const postValidation = yup.object({
   title: yup
     .string()

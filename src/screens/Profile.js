@@ -13,10 +13,11 @@ const Profile = ({ route, navigation }) => {
   const userData = useRef('')
   const self = useRef(false)
   const [refresh, setRefresh] = useState(false)
+  const [edit, setEdit] = useState(false)
 
   useEffect(() => {
     handleUserInfo()
-  }, [])
+  }, [edit])
 
   const handleSignOut = async () => {
     await removeValue('userInfo')
@@ -29,6 +30,7 @@ const Profile = ({ route, navigation }) => {
   }
 
   const handleUserInfo = async () => {
+    console.log('her')
     let res
     if (route.params?.uname) {
       res = await getUserInfo(route.params.uname, false, userInfo.uname)
@@ -88,7 +90,7 @@ const Profile = ({ route, navigation }) => {
       <View style={styles.infoCont}>
         <View>
           <View style={styles.avatar}>
-            {userData.current.dp !== 'na' ? (
+            {userData.current.dp ? (
               <Avatar.Image size={100} source={{ uri: userData.current.dp }} />
             ) : (
               <Avatar.Icon
@@ -127,7 +129,13 @@ const Profile = ({ route, navigation }) => {
               icon='account-edit'
               style={{ marginTop: 15, paddingHorizontal: 2 }}
               color='#0092d6'
-              onPress={handleSignOut}
+              onPress={() =>
+                navigation.navigate('EditProfile', {
+                  userData: userData.current,
+                  edit: edit,
+                  seEdit: setEdit,
+                })
+              }
             >
               Edit Profile
             </Button>

@@ -1,9 +1,8 @@
 import { ScrollView, ToastAndroid, View } from 'react-native'
 import { Avatar, Button, Text, TextInput } from 'react-native-paper'
 import { Formik } from 'formik'
-import { signUpValidation } from '../helpers/yupValidation'
+import { editProfileValidation } from '../helpers/yupValidation'
 import { globalStyles } from '../helpers/globalStyles'
-import { checkUser, registerUser } from '../helpers/callApi'
 import ImagePicker from '../components/ImagePicker'
 import { useContext, useState } from 'react'
 import { pickImage } from '../helpers/pickImage'
@@ -12,18 +11,23 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import Loading from '../components/Loading'
 import UserContext from '../store/UserContext'
 import { storeData } from '../helpers/asyncStorage'
+import { editProfile } from '../helpers/Api/profile'
 
-const SignUp = props => {
+const EditProfile = props => {
+  const userData = props.route.params.userData
+  const edit = props.route.params.edit
+  const setEdit = props.route.params.setEdit
+
   const [modalPicImage, setModalPicImage] = useState(false)
-  const [usernameChecked, setUsernameChecked] = useState(false)
   const [signingUp, setSigningUp] = useState(false)
-  const [dp, setDp] = useState('')
-  const { setUserInfo } = useContext(UserContext)
+  const [dp, setDp] = useState(userData.dp)
+  const { userInfo, setUserInfo } = useContext(UserContext)
+  const [isDpChanged, setIsDpChanged] = useState(false)
 
   const handleSignUp = async values => {
     setSigningUp(true)
-    let dpUri = ''
-    if (dp) {
+    let dpUri = dp
+    if (isDpChanged) {
       const data = await uploadToCloud(dp)
       if (!data[0]) {
         console.log('Sign up failed...')
@@ -33,25 +37,25 @@ const SignUp = props => {
       }
     }
 
-    const res = await registerUser({ ...values, dpUri })
+    const res = await editProfile({ ...values, dp: dpUri }, userInfo.token)
 
     if (res.status === 200) {
-      await storeData('userInfo', res.data)
+      await storeData('userInfo', { ...res.data, token: userInfo.token })
 
       setSigningUp(false)
-      setUserInfo({ ...res.data, user: true })
-      return
-    } else if (res.status === 400) {
-      ToastAndroid.show('Invalid username or password', ToastAndroid.LONG)
+      setEdit(!edit)
+      setUserInfo({ ...res.data, token: userInfo.token, user: true })
+
+      ToastAndroid.show('Profile updated successfully...', ToastAndroid.SHORT)
+      props.navigation.goBack()
     } else {
       ToastAndroid.show(
         'An error occurred, please try again',
         ToastAndroid.LONG
       )
-    }
 
-    setSigningUp(false)
-    setUsernameChecked(false)
+      setSigningUp(false)
+    }
   }
 
   const handleImage = async val => {
@@ -60,31 +64,12 @@ const SignUp = props => {
 
     if (imgUri) {
       setDp(imgUri)
-    }
-  }
-
-  const handleCheckUser = async val => {
-    if (val) {
-      const data = await checkUser(val)
-      if (data.status === 200) {
-        setUsernameChecked(true)
-        ToastAndroid.show(
-          'Username available, please proceed...',
-          ToastAndroid.LONG
-        )
-      } else {
-        ToastAndroid.show(
-          'Username already taken, please try with a different username.',
-          ToastAndroid.LONG
-        )
-      }
-    } else {
-      ToastAndroid.show('Please enter an username.', ToastAndroid.SHORT)
+      setIsDpChanged(true)
     }
   }
 
   return signingUp ? (
-    <Loading txt='Signing up...' />
+    <Loading txt='Updating...' />
   ) : (
     <ScrollView style={{ marginHorizontal: 10 }}>
       <View style={globalStyles.avatar}>
@@ -108,22 +93,13 @@ const SignUp = props => {
 
       <Formik
         initialValues={{
-          userName: '',
-          pwrd: '',
-          name: '',
-          city: '',
-          about: '',
+          name: userData.name,
+          city: userData.city,
+          about: userData.about,
         }}
-        validationSchema={signUpValidation}
+        validationSchema={editProfileValidation}
         onSubmit={(values, action) => {
-          if (usernameChecked) {
-            handleSignUp(values)
-          } else {
-            ToastAndroid.show(
-              'Please check username before signing up.',
-              ToastAndroid.LONG
-            )
-          }
+          handleSignUp(values)
           //action.resetForm()
         }}
       >
@@ -136,48 +112,6 @@ const SignUp = props => {
           errors,
         }) => (
           <View>
-            <View style={globalStyles.textIn}>
-              <TextInput
-                label='Username'
-                placeholder='Enter your username...'
-                disabled={usernameChecked ? true : false}
-                onChangeText={handleChange('userName')}
-                onBlur={handleBlur('userName')}
-                value={values.userName}
-              />
-              {errors.userName && touched.userName && (
-                <Text style={globalStyles.errorText}>
-                  {touched.userName && errors.userName}
-                </Text>
-              )}
-            </View>
-
-            {!usernameChecked && (
-              <Button
-                color='orange'
-                icon='checkbox-marked-circle-outline'
-                disabled={errors.userName ? true : false}
-                onPress={() => handleCheckUser(values.userName)}
-              >
-                Check username
-              </Button>
-            )}
-
-            <View style={globalStyles.textIn}>
-              <TextInput
-                label='Password'
-                placeholder='Enter your password...'
-                onChangeText={handleChange('pwrd')}
-                onBlur={handleBlur('pwrd')}
-                value={values.pwrd}
-              />
-              {errors.pwrd && touched.pwrd && (
-                <Text style={globalStyles.errorText}>
-                  {touched.pwrd && errors.pwrd}
-                </Text>
-              )}
-            </View>
-
             <View style={globalStyles.textIn}>
               <TextInput
                 label='Name'
@@ -230,7 +164,7 @@ const SignUp = props => {
               icon='account-arrow-right'
               style={{ marginTop: 10, marginBottom: 10 }}
             >
-              Sign Up
+              Update
             </Button>
           </View>
         )}
@@ -245,4 +179,4 @@ const SignUp = props => {
   )
 }
 
-export default SignUp
+export default EditProfile
