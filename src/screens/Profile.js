@@ -13,11 +13,10 @@ const Profile = ({ route, navigation }) => {
   const userData = useRef('')
   const self = useRef(false)
   const [refresh, setRefresh] = useState(false)
-  const [edit, setEdit] = useState(false)
 
   useEffect(() => {
     handleUserInfo()
-  }, [edit])
+  }, [])
 
   const handleSignOut = async () => {
     await removeValue('userInfo')
@@ -63,7 +62,7 @@ const Profile = ({ route, navigation }) => {
   }
 
   const handleFollowNav = tn => {
-    const title = tn === 'fr' ? 'Followers' : 'Following'
+    const title = tn === 'fr' ? 'অনুসৰণকাৰী' : 'অনুসৰণ কৰি আছে'
 
     navigation.push('FollowerStack', {
       tn,
@@ -132,12 +131,10 @@ const Profile = ({ route, navigation }) => {
               onPress={() =>
                 navigation.navigate('EditProfile', {
                   userData: userData.current,
-                  edit: edit,
-                  seEdit: setEdit,
                 })
               }
             >
-              Edit Profile
+              প্ৰ'ফাইল সম্পাদনা কৰক
             </Button>
           ) : (
             <Button
@@ -146,7 +143,7 @@ const Profile = ({ route, navigation }) => {
               color='#0092d6'
               onPress={handleFollow}
             >
-              {userData.current.fname ? 'Following' : 'Follow'}
+              {userData.current.fname ? 'অনুসৰণ কৰি আছে' : 'অনুসৰণ কৰক'}
             </Button>
           )}
         </View>
@@ -162,23 +159,27 @@ const Profile = ({ route, navigation }) => {
         color='orange'
         onPress={handlePostNav}
       >
-        {self.current ? 'My Posts' : 'Posts'}
+        {self.current ? "মোৰ প'ষ্টসমূহ" : "প'ষ্টসমূহ"}
       </Button>
+
+      {/* followers */}
       <Button
         icon='account-arrow-right'
         style={styles.btn}
         color='orange'
         onPress={() => handleFollowNav('fr')}
       >
-        Followers
+        অনুসৰণকাৰী
       </Button>
+
+      {/* following */}
       <Button
         icon='account-arrow-left'
         style={styles.btn}
         color='orange'
         onPress={() => handleFollowNav('fg')}
       >
-        Following
+        অনুসৰণ কৰি আছে
       </Button>
       {self.current && (
         <Button
@@ -187,7 +188,7 @@ const Profile = ({ route, navigation }) => {
           color='orange'
           onPress={() => navigation.navigate('Bookmarks')}
         >
-          Bookmarks
+          সংৰক্ষিত প'ষ্টসমূহ
         </Button>
       )}
       {self.current && (
@@ -197,7 +198,7 @@ const Profile = ({ route, navigation }) => {
           color='orange'
           onPress={handleSignOut}
         >
-          Log Out
+          লগ আউট
         </Button>
       )}
     </View>

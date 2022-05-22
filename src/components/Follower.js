@@ -1,6 +1,5 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Avatar, Text } from 'react-native-paper'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { globalStyles } from '../helpers/globalStyles'
 
 const Follower = props => {
@@ -14,7 +13,7 @@ const Follower = props => {
       <View style={globalStyles.cont}>
         <View style={styles.cont}>
           <View style={styles.avatar}>
-            {props.item.dp !== 'na' ? (
+            {props.item.dp ? (
               <Avatar.Image size={55} source={{ uri: props.item.dp }} />
             ) : (
               <Avatar.Icon

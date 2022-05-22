@@ -6,7 +6,7 @@ import { globalStyles } from '../helpers/globalStyles'
 import { userSignIn } from '../helpers/callApi'
 import Loading from '../components/Loading'
 import { useContext, useState } from 'react'
-import { getData, storeData } from '../helpers/asyncStorage'
+import { storeData } from '../helpers/asyncStorage'
 import UserContext from '../store/UserContext'
 
 const SignIn = props => {
@@ -61,7 +61,7 @@ const SignIn = props => {
             <View style={globalStyles.textIn}>
               <TextInput
                 label='Username'
-                placeholder='Enter your username...'
+                placeholder='Username প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('userName')}
                 onBlur={handleBlur('userName')}
                 value={values.userName}
@@ -75,8 +75,8 @@ const SignIn = props => {
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Password'
-                placeholder='Enter your password...'
+                label='পাছৱৰ্ড'
+                placeholder='পাছৱৰ্ড প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('pwrd')}
                 onBlur={handleBlur('pwrd')}
                 value={values.pwrd}
@@ -94,20 +94,20 @@ const SignIn = props => {
               icon='login'
               style={{ marginTop: 10 }}
             >
-              Sign In
+              লগ ইন কৰক
             </Button>
           </View>
         )}
       </Formik>
       <Subheading style={{ textAlign: 'center', marginTop: 40 }}>
-        Don't have an account?
+        একাউণ্ট নাই?
       </Subheading>
       <Button
         onPress={() => props.navigation.navigate('SignUp')}
         color='orange'
         icon='account-edit'
       >
-        Create Now
+        নতুন একাউণ্ট সৃষ্টি কৰক
       </Button>
     </ScrollView>
   )

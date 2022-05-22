@@ -15,8 +15,6 @@ import { editProfile } from '../helpers/Api/profile'
 
 const EditProfile = props => {
   const userData = props.route.params.userData
-  const edit = props.route.params.edit
-  const setEdit = props.route.params.setEdit
 
   const [modalPicImage, setModalPicImage] = useState(false)
   const [signingUp, setSigningUp] = useState(false)
@@ -41,13 +39,18 @@ const EditProfile = props => {
 
     if (res.status === 200) {
       await storeData('userInfo', { ...res.data, token: userInfo.token })
+      const date = Date.now()
 
       setSigningUp(false)
-      setEdit(!edit)
       setUserInfo({ ...res.data, token: userInfo.token, user: true })
 
       ToastAndroid.show('Profile updated successfully...', ToastAndroid.SHORT)
-      props.navigation.goBack()
+
+      // reseting navigation for profile tab to show updated data
+      props.navigation.reset({
+        index: 0,
+        routes: [{ name: 'Profile' }],
+      })
     } else {
       ToastAndroid.show(
         'An error occurred, please try again',

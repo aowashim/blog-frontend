@@ -1,14 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { useContext } from 'react'
-import Post from '../components/Post'
 import Bookmarks from '../screens/Bookmarks'
 import EditProfile from '../screens/EditProfile'
-import Followers from '../screens/Followers'
-import Posts from '../screens/Posts'
 import Profile from '../screens/Profile'
 import SignIn from '../screens/SignIn'
 import SignUp from '../screens/SignUp'
-import SinglePost from '../screens/SinglePost'
 import UserContext from '../store/UserContext'
 
 const ProfileStack = createStackNavigator()
@@ -27,7 +23,7 @@ const ProfileStackScreen = () => {
         <ProfileStack.Screen
           name='Bookmarks'
           component={Bookmarks}
-          // options={{ title: 'My Posts' }}
+          options={{ title: "সংৰক্ষিত প'ষ্টসমূহ" }}
         />
         <ProfileStack.Screen
           name='EditProfile'
@@ -42,12 +38,12 @@ const ProfileStackScreen = () => {
         <ProfileStack.Screen
           name='SignIn'
           component={SignIn}
-          options={{ title: 'Sign In' }}
+          options={{ title: 'লগ ইন' }}
         />
         <ProfileStack.Screen
           name='SignUp'
           component={SignUp}
-          options={{ title: 'Create Account' }}
+          options={{ title: 'একাউণ্ট সৃষ্টি কৰক' }}
         />
       </ProfileStack.Navigator>
     )

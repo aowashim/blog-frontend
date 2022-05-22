@@ -4,7 +4,6 @@ import ProfileStackScreen from './ProfileStackScreen'
 import Loading from '../components/Loading'
 import { Feather } from '@expo/vector-icons'
 import Search from '../screens/Search'
-import TempScree from '../screens/TempScree'
 import { createStackNavigator } from '@react-navigation/stack'
 import Posts from '../screens/Posts'
 import CreatePost from '../screens/CreatePost'
@@ -36,7 +35,7 @@ const HomeStackScreen = () => {
       <HomeStack.Screen
         name='CreatePost'
         component={CreatePost}
-        options={{ title: 'Create post' }}
+        options={{ title: "প'ষ্ট সৃষ্টি কৰক" }}
       />
     </HomeStack.Navigator>
   )

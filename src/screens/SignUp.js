@@ -42,10 +42,10 @@ const SignUp = props => {
       setUserInfo({ ...res.data, user: true })
       return
     } else if (res.status === 400) {
-      ToastAndroid.show('Invalid username or password', ToastAndroid.LONG)
+      ToastAndroid.show('অবৈধ username বা পাছৱৰ্ড', ToastAndroid.LONG)
     } else {
       ToastAndroid.show(
-        'An error occurred, please try again',
+        'এটা ত্ৰুটি ঘটিছে, অনুগ্ৰহ কৰি পুনৰ চেষ্টা কৰক',
         ToastAndroid.LONG
       )
     }
@@ -68,18 +68,15 @@ const SignUp = props => {
       const data = await checkUser(val)
       if (data.status === 200) {
         setUsernameChecked(true)
-        ToastAndroid.show(
-          'Username available, please proceed...',
-          ToastAndroid.LONG
-        )
+        ToastAndroid.show('Username উপলব্ধ ...', ToastAndroid.LONG)
       } else {
         ToastAndroid.show(
-          'Username already taken, please try with a different username.',
+          'এইটো username উপলব্ধ নহয়, অনুগ্ৰহ কৰি অন্য় এটা username প্ৰৱিষ্ট কৰক',
           ToastAndroid.LONG
         )
       }
     } else {
-      ToastAndroid.show('Please enter an username.', ToastAndroid.SHORT)
+      ToastAndroid.show('অনুগ্ৰহ কৰি username প্ৰৱিষ্ট কৰক', ToastAndroid.SHORT)
     }
   }
 
@@ -103,7 +100,7 @@ const SignUp = props => {
             />
           )}
         </TouchableOpacity>
-        <Text style={{ marginTop: 5, color: 'grey' }}>Profile picture</Text>
+        <Text style={{ marginTop: 5, color: 'grey' }}>প্ৰ’ফাইল ফটো</Text>
       </View>
 
       <Formik
@@ -120,7 +117,7 @@ const SignUp = props => {
             handleSignUp(values)
           } else {
             ToastAndroid.show(
-              'Please check username before signing up.',
+              'ছাইন আপ কৰাৰ আগতে username পৰীক্ষা কৰক',
               ToastAndroid.LONG
             )
           }
@@ -139,7 +136,7 @@ const SignUp = props => {
             <View style={globalStyles.textIn}>
               <TextInput
                 label='Username'
-                placeholder='Enter your username...'
+                placeholder='Username প্ৰৱিষ্ট কৰক ...'
                 disabled={usernameChecked ? true : false}
                 onChangeText={handleChange('userName')}
                 onBlur={handleBlur('userName')}
@@ -159,14 +156,14 @@ const SignUp = props => {
                 disabled={errors.userName ? true : false}
                 onPress={() => handleCheckUser(values.userName)}
               >
-                Check username
+                Username পৰীক্ষা কৰক
               </Button>
             )}
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Password'
-                placeholder='Enter your password...'
+                label='পাছৱৰ্ড'
+                placeholder='পাছৱৰ্ড প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('pwrd')}
                 onBlur={handleBlur('pwrd')}
                 value={values.pwrd}
@@ -180,8 +177,8 @@ const SignUp = props => {
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Name'
-                placeholder='Enter your name...'
+                label='নাম'
+                placeholder='নাম প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
@@ -195,8 +192,8 @@ const SignUp = props => {
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='City'
-                placeholder='Enter your city...'
+                label='নগৰ'
+                placeholder='নগৰ প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('city')}
                 onBlur={handleBlur('city')}
                 value={values.city}
@@ -210,8 +207,8 @@ const SignUp = props => {
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='About'
-                placeholder='Enter about yourself...'
+                label='আপোনাৰ বিষয়ে'
+                placeholder='আপোনাৰ বিষয়ে লিখক ...'
                 multiline={true}
                 onChangeText={handleChange('about')}
                 onBlur={handleBlur('about')}
@@ -230,7 +227,7 @@ const SignUp = props => {
               icon='account-arrow-right'
               style={{ marginTop: 10, marginBottom: 10 }}
             >
-              Sign Up
+              ছাইন আপ কৰক
             </Button>
           </View>
         )}

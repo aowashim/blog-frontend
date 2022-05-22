@@ -81,8 +81,8 @@ const CreatePost = props => {
           <View>
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Title'
-                placeholder='Enter title...'
+                label='শীৰ্ষক'
+                placeholder='শীৰ্ষক প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('title')}
                 onBlur={handleBlur('title')}
                 value={values.title}
@@ -96,9 +96,9 @@ const CreatePost = props => {
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Description'
+                label='বিৱৰণ'
                 // mode='outlined'
-                placeholder='Enter description...'
+                placeholder='বিৱৰণ প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('description')}
                 onBlur={handleBlur('description')}
                 value={values.description}
@@ -114,9 +114,9 @@ const CreatePost = props => {
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Url'
+                label='URL'
                 // mode='outlined'
-                placeholder='Enter url, include http...'
+                placeholder="URL প্ৰৱিষ্ট কৰক, 'http'ৰ সৈতে ..."
                 onChangeText={handleChange('url')}
                 onBlur={handleBlur('url')}
                 value={values.url}
@@ -130,9 +130,9 @@ const CreatePost = props => {
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Category'
+                label='শ্ৰেণী'
                 // mode='outlined'
-                placeholder='Enter Category...'
+                placeholder='শ্ৰেণী প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('catg')}
                 onBlur={handleBlur('catg')}
                 value={values.catg}
@@ -172,7 +172,7 @@ const CreatePost = props => {
               icon='login'
               style={{ marginTop: 10 }}
             >
-              Post
+              প'ষ্ট কৰক
             </Button>
           </View>
         )}

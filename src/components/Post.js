@@ -56,7 +56,7 @@ const Post = props => {
           }}
           onPress={handleNav}
         >
-          {props.item.dp !== 'na' ? (
+          {props.item.dp ? (
             <Avatar.Image size={45} source={{ uri: props.item.dp }} />
           ) : (
             <Avatar.Icon
