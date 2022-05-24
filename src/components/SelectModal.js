@@ -1,5 +1,6 @@
 import { Modal, Pressable, View } from 'react-native'
 import { Button, Divider, Text } from 'react-native-paper'
+import { ModalCloseBtnName } from '../helpers/constants'
 
 const SelectModal = props => {
   const scheme = 'dark'
@@ -34,7 +35,7 @@ const SelectModal = props => {
         }}
       >
         <Text style={{ textAlign: 'center', marginBottom: 8, fontSize: 14 }}>
-          View posts from
+          প'ষ্ট চাওঁক
         </Text>
         <Divider
           style={{
@@ -48,14 +49,14 @@ const SelectModal = props => {
           color={props.all ? 'orange' : 'white'}
           onPress={() => props.handleViewPost('a')}
         >
-          All
+          সকলোৰে পৰা
         </Button>
         <Button
           icon='star'
           color={props.all ? 'white' : 'orange'}
           onPress={() => props.handleViewPost('f')}
         >
-          Following
+          অনুসৰণকাৰীৰ পৰা
         </Button>
         <Button
           style={{ marginBottom: 10 }}
@@ -63,7 +64,7 @@ const SelectModal = props => {
           color='white'
           onPress={props.closeModal}
         >
-          Cancel
+          {ModalCloseBtnName}
         </Button>
       </View>
     </Modal>

@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { Modal, Pressable, View } from 'react-native'
 import { Button } from 'react-native-paper'
+import { ModalCloseBtnName } from '../helpers/constants'
 //import AppContext from '../store/AppContext'
 
 const ImagePicker = props => {
@@ -42,14 +43,14 @@ const ImagePicker = props => {
           color='white'
           onPress={() => props.handleImage('c')}
         >
-          camera
+          কেমেৰা
         </Button>
         <Button
           icon='folder-image'
           color='white'
           onPress={() => props.handleImage('g')}
         >
-          gallery
+          গেলেৰী
         </Button>
         <Button
           style={{ marginBottom: 10 }}
@@ -57,7 +58,7 @@ const ImagePicker = props => {
           color='white'
           onPress={props.closeModal}
         >
-          Cancel
+          {ModalCloseBtnName}
         </Button>
       </View>
     </Modal>

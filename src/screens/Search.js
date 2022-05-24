@@ -1,50 +1,54 @@
 import { Formik } from 'formik'
 import { useContext, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { Button, Text, TextInput } from 'react-native-paper'
 import SearchCatgModal from '../components/SearchCatgModal'
+import { SearchCatg } from '../helpers/constants'
 import { globalStyles } from '../helpers/globalStyles'
 import { searchValidation } from '../helpers/yupValidation'
 import UserContext from '../store/UserContext'
 
+const searchTitle = 'ৰ বাবে সন্ধানৰ ফলাফলসমূহ'
+
 const Search = props => {
-  const [searchOption, setSearchOption] = useState('Post by title')
+  const [searchOption, setSearchOption] = useState(SearchCatg['pt'])
   const [showModal, setShowModal] = useState(false)
   const { userInfo } = useContext(UserContext)
 
   const handleSearchOption = option => {
-    setSearchOption(option)
+    setSearchOption(SearchCatg[option])
     setShowModal(false)
   }
 
   const handleSearchResult = key => {
-    if (searchOption === 'Post by title') {
+    if (searchOption === SearchCatg['pt']) {
       props.navigation.push('PostStack', {
         search: key,
         un: 'yes',
         byTitle: true,
-        title: `Results for '${key}'`,
+        title: `'${key}'${searchTitle}`,
       })
-    } else if (searchOption === 'Post by category') {
+    } else if (searchOption === SearchCatg['pc']) {
       props.navigation.push('PostStack', {
         search: key,
         un: 'yes',
         byTitle: false,
-        title: `Results for '${key}'`,
+        title: `'${key}'${searchTitle}`,
       })
-    } else if (searchOption === 'People by name') {
+    } else if (searchOption === SearchCatg['un']) {
       props.navigation.push('FollowerStack', {
         tn: 'sr',
         key,
         byName: true,
-        title: `Results for '${key}'`,
+        title: `'${key}'${searchTitle}`,
       })
     } else {
       props.navigation.push('FollowerStack', {
         tn: 'sr',
         key,
         byName: false,
-        title: `Results for '${key}'`,
+        title: `'${key}'${searchTitle}`,
       })
     }
   }
@@ -82,11 +86,11 @@ const Search = props => {
           touched,
           errors,
         }) => (
-          <View>
+          <ScrollView>
             <View style={globalStyles.textIn}>
               <TextInput
                 label='Query'
-                placeholder='Enter your query...'
+                placeholder='Query প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('searchQuery')}
                 onBlur={handleBlur('searchQuery')}
                 value={values.searchQuery}
@@ -104,9 +108,9 @@ const Search = props => {
               icon='shield-search'
               style={styles.searchBtn}
             >
-              Search
+              সন্ধান কৰক
             </Button>
-          </View>
+          </ScrollView>
         )}
       </Formik>
     </View>

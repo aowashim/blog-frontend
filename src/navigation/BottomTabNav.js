@@ -18,7 +18,7 @@ const SearchStackScreen = () => {
       <SearchStack.Screen
         name='SearchStack'
         component={Search}
-        options={{ title: 'Find posts and people' }}
+        options={{ title: "প'ষ্ট/লোক সন্ধান কৰক" }}
       />
     </SearchStack.Navigator>
   )

@@ -1,5 +1,6 @@
 import { Modal, Pressable, View } from 'react-native'
 import { Button, Divider, Text } from 'react-native-paper'
+import { ModalCloseBtnName, SearchCatg } from '../helpers/constants'
 
 const SearchCatgModal = props => {
   const scheme = 'dark'
@@ -34,7 +35,7 @@ const SearchCatgModal = props => {
         }}
       >
         <Text style={{ textAlign: 'center', marginBottom: 8, fontSize: 14 }}>
-          Select search option
+          সন্ধানৰ শ্ৰেণী বাছনি কৰক
         </Text>
         <Divider
           style={{
@@ -45,34 +46,25 @@ const SearchCatgModal = props => {
         <Button
           style={{ marginTop: 5 }}
           color='white'
-          onPress={() => props.handleSearchOption('Post by title')}
+          onPress={() => props.handleSearchOption('pt')}
         >
-          Post by title
+          {SearchCatg['pt']}
         </Button>
-        <Button
-          color='white'
-          onPress={() => props.handleSearchOption('Post by category')}
-        >
-          Post by category
+        <Button color='white' onPress={() => props.handleSearchOption('pc')}>
+          {SearchCatg['pc']}
         </Button>
-        <Button
-          color='white'
-          onPress={() => props.handleSearchOption('People by name')}
-        >
-          People by name
+        <Button color='white' onPress={() => props.handleSearchOption('un')}>
+          {SearchCatg['un']}
         </Button>
-        <Button
-          color='white'
-          onPress={() => props.handleSearchOption('People by username')}
-        >
-          People by username
+        <Button color='white' onPress={() => props.handleSearchOption('uu')}>
+          {SearchCatg['uu']}
         </Button>
         <Button
           style={{ marginBottom: 10 }}
           color='white'
           onPress={props.closeModal}
         >
-          Cancel
+          {ModalCloseBtnName}
         </Button>
       </View>
     </Modal>

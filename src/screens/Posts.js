@@ -1,9 +1,10 @@
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
-import { FAB } from 'react-native-paper'
+import { FAB, Text } from 'react-native-paper'
 import HomeHeader from '../components/HomeHeader'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
+import NotResults from '../components/NotResults'
 import Post from '../components/Post'
 import SelectModal from '../components/SelectModal'
 import { getSearchPost } from '../helpers/Api/search'
@@ -27,6 +28,7 @@ const Posts = props => {
   const { userInfo } = useContext(UserContext)
   const [showModal, setShowModal] = useState(false)
   const [fromAll, setFromAll] = useState(true)
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     handleNewPosts()
@@ -96,6 +98,7 @@ const Posts = props => {
       setRefresh(!refresh)
     } else {
       // morePost.current = false
+      setNotFound(true)
       setRefresh(!refresh)
     }
   }
@@ -192,7 +195,9 @@ const Posts = props => {
     )
   }
 
-  return posts.current.length ? (
+  return notFound ? (
+    <NotResults />
+  ) : posts.current.length ? (
     <View style={styles.container}>
       <FlatList
         data={posts.current}
@@ -205,7 +210,7 @@ const Posts = props => {
         refreshing={pull}
       />
 
-      {!props.route.params?.un && (
+      {!props.route.params?.un && userInfo.user && (
         <FAB
           style={styles.fab}
           icon='pen-plus'

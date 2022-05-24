@@ -82,5 +82,5 @@ export const postValidation = yup.object({
 })
 
 export const searchValidation = yup.object({
-  searchQuery: yup.string().required('This field is required.'),
+  searchQuery: yup.string().required('Query প্ৰয়োজনীয়'),
 })

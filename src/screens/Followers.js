@@ -4,6 +4,7 @@ import { Button, Text } from 'react-native-paper'
 import Follower from '../components/Follower'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
+import NotResults from '../components/NotResults'
 import { getSearchUser } from '../helpers/Api/search'
 import { getFollowers, getFollowing } from '../helpers/callApi'
 import { MAX_ID } from '../helpers/constants'
@@ -118,7 +119,7 @@ const Followers = props => {
   }
 
   return notFound ? (
-    <Text>Not found</Text>
+    <NotResults />
   ) : followers.current.length ? (
     <View style={styles.container}>
       <FlatList
