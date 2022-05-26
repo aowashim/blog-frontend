@@ -28,7 +28,7 @@ const ProfileStackScreen = () => {
         <ProfileStack.Screen
           name='EditProfile'
           component={EditProfile}
-          options={{ title: 'Edit Profile' }}
+          options={{ title: "প্ৰ'ফাইল সম্পাদনা" }}
         />
       </ProfileStack.Navigator>
     )

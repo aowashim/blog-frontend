@@ -39,7 +39,6 @@ const EditProfile = props => {
 
     if (res.status === 200) {
       await storeData('userInfo', { ...res.data, token: userInfo.token })
-      const date = Date.now()
 
       setSigningUp(false)
       setUserInfo({ ...res.data, token: userInfo.token, user: true })
@@ -91,7 +90,7 @@ const EditProfile = props => {
             />
           )}
         </TouchableOpacity>
-        <Text style={{ marginTop: 5, color: 'grey' }}>Profile picture</Text>
+        <Text style={{ marginTop: 5, color: 'grey' }}>প্ৰ’ফাইল ফটো</Text>
       </View>
 
       <Formik
@@ -117,8 +116,8 @@ const EditProfile = props => {
           <View>
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Name'
-                placeholder='Enter your name...'
+                label='নাম'
+                placeholder='নাম প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
@@ -132,8 +131,8 @@ const EditProfile = props => {
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='City'
-                placeholder='Enter your city...'
+                label='নগৰ'
+                placeholder='নগৰ প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('city')}
                 onBlur={handleBlur('city')}
                 value={values.city}
@@ -147,8 +146,8 @@ const EditProfile = props => {
 
             <View style={globalStyles.textIn}>
               <TextInput
-                label='About'
-                placeholder='Enter about yourself...'
+                label='আপোনাৰ বিষয়ে'
+                placeholder='আপোনাৰ বিষয়ে লিখক ...'
                 multiline={true}
                 onChangeText={handleChange('about')}
                 onBlur={handleBlur('about')}
@@ -167,7 +166,7 @@ const EditProfile = props => {
               icon='account-arrow-right'
               style={{ marginTop: 10, marginBottom: 10 }}
             >
-              Update
+              সম্পাদনা কৰক
             </Button>
           </View>
         )}

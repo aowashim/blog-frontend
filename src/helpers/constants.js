@@ -1,4 +1,4 @@
-export const SERVER = 'http://10.55.10.19:5000'
+export const SERVER = 'http://10.55.4.24:5000'
 export const MAX_ID = 99999999
 export const SearchCatg = {
   pt: "প'ষ্ট (শীৰ্ষকৰ জৰিয়তে)",

@@ -25,7 +25,7 @@ const AllStackScreen = props => {
         options={({ route }) => ({
           title:
             route.params.un === userInfo.uname
-              ? 'My Posts'
+              ? "মোৰ প'ষ্টসমূহ"
               : route.params.title,
         })}
       />

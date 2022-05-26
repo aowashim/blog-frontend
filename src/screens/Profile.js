@@ -29,7 +29,6 @@ const Profile = ({ route, navigation }) => {
   }
 
   const handleUserInfo = async () => {
-    console.log('her')
     let res
     if (route.params?.uname) {
       res = await getUserInfo(route.params.uname, false, userInfo.uname)
@@ -76,7 +75,7 @@ const Profile = ({ route, navigation }) => {
 
     navigation.push('PostStack', {
       un: userData.current.userName,
-      title: `${name}'s posts`,
+      title: `${name}ৰ প'ষ্টসমূহ`,
     })
   }
 
