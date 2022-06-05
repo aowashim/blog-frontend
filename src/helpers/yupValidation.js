@@ -66,7 +66,7 @@ export const postValidation = yup.object({
     .string()
     .matches(regExAssamese, asCharValidMsg)
     .required('শীৰ্ষক প্ৰয়োজনীয়')
-    .max(3, 'শীৰ্ষক 50 টা আখৰতকৈ কম হব লাগিব'),
+    .max(50, 'শীৰ্ষক 50 টা আখৰতকৈ কম হব লাগিব'),
   description: yup
     .string()
     .matches(regExAssamese, asCharValidMsg)
@@ -83,4 +83,12 @@ export const postValidation = yup.object({
 
 export const searchValidation = yup.object({
   searchQuery: yup.string().required('Query প্ৰয়োজনীয়'),
+})
+
+export const commentValidation = yup.object({
+  comment: yup
+    .string()
+    .required('মন্তব্য় প্ৰয়োজনীয়')
+    .matches(regExAssamese, asCharValidMsg)
+    .max(200, 'সৰ্বাধিক ২০০ টা আখৰ অনুমোদিত'),
 })

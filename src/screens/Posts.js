@@ -91,6 +91,7 @@ const Posts = props => {
     }
 
     if (res.status !== 400) {
+      if (notFound) setNotFound(false)
       lastPost.current = res.data[res.data.length - 1].pid
       posts.current = res.data
       morePost.current = true
@@ -98,7 +99,7 @@ const Posts = props => {
       setRefresh(!refresh)
     } else {
       // morePost.current = false
-      setNotFound(true)
+      if (!notFound) setNotFound(true)
       setRefresh(!refresh)
     }
   }
@@ -196,7 +197,15 @@ const Posts = props => {
   }
 
   return notFound ? (
-    <NotResults />
+    <>
+      <NotResults />
+      <SelectModal
+        show={showModal}
+        closeModal={() => setShowModal(false)}
+        handleViewPost={handleViewPost}
+        all={fromAll}
+      />
+    </>
   ) : posts.current.length ? (
     <View style={styles.container}>
       <FlatList
