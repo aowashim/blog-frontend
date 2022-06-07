@@ -148,11 +148,11 @@ const Posts = props => {
     posts.current[index].bm = bm
     setRefresh(!refresh)
 
-    if (bm) {
-      ToastAndroid.show('Added to bookmark', ToastAndroid.SHORT)
-    } else {
-      ToastAndroid.show('Removed from bookmark', ToastAndroid.SHORT)
-    }
+    // if (bm) {
+    //   ToastAndroid.show('Added to bookmark', ToastAndroid.SHORT)
+    // } else {
+    //   ToastAndroid.show('Removed from bookmark', ToastAndroid.SHORT)
+    // }
   }
 
   const handleBookMark = async (id, bm, index, title) => {

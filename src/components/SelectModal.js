@@ -35,7 +35,7 @@ const SelectModal = props => {
         }}
       >
         <Text style={{ textAlign: 'center', marginBottom: 8, fontSize: 14 }}>
-          প'ষ্ট চাওঁক
+          প'ষ্ট চাওক
         </Text>
         <Divider
           style={{

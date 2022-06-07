@@ -19,3 +19,18 @@ export const createComment = async (values, token) => {
 
   return res
 }
+
+export const getComments = async (last, pid) => {
+  const res = { data: '', status: 200 }
+  try {
+    const val = await axios.get(`${SERVER}/comment?pid=${pid}&cid=${last}`)
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
+}

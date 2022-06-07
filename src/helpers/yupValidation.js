@@ -9,13 +9,13 @@ export const signInValidation = yup.object({
     .string()
     .required('Username প্ৰয়োজনীয়')
     .matches(/^[a-z0-9]+$/i, 'কেৱল alphanumeric আখৰ অনুমোদিত')
-    .min(4, 'Username অতি কমেও 4 টা আখৰৰ হব লাগিব')
-    .max(15, 'সৰ্বাধিক 15 টা আখৰ অনুমোদিত'),
+    .min(4, 'Username অতি কমেও ৪ টা আখৰৰ হব লাগিব')
+    .max(15, 'সৰ্বাধিক ১৫ টা আখৰ অনুমোদিত'),
   pwrd: yup
     .string()
     .required('পাছৱৰ্ড প্ৰয়োজনীয়')
-    .min(8, 'পাছৱৰ্ড অতি কমেও 8 টা আখৰৰ হব লাগিব')
-    .max(16, 'সৰ্বাধিক 16 টা আখৰ অনুমোদিত'),
+    .min(8, 'পাছৱৰ্ড অতি কমেও ৮ টা আখৰৰ হব লাগিব')
+    .max(16, 'সৰ্বাধিক ১৬ টা আখৰ অনুমোদিত'),
 })
 
 export const signUpValidation = yup.object({
@@ -23,13 +23,13 @@ export const signUpValidation = yup.object({
     .string()
     .required('Username প্ৰয়োজনীয়')
     .matches(/^[a-z0-9]+$/i, 'কেৱল alphanumeric আখৰ অনুমোদিত')
-    .min(4, 'Username অতি কমেও 4 টা আখৰৰ হব লাগিব')
-    .max(15, 'সৰ্বাধিক 15 টা আখৰ অনুমোদিত'),
+    .min(4, 'Username অতি কমেও ৪ টা আখৰৰ হব লাগিব')
+    .max(15, 'সৰ্বাধিক ১৫ টা আখৰ অনুমোদিত'),
   pwrd: yup
     .string()
     .required('পাছৱৰ্ড প্ৰয়োজনীয়')
-    .min(8, 'পাছৱৰ্ড অতি কমেও 8 টা আখৰৰ হব লাগিব')
-    .max(16, 'সৰ্বাধিক 16 টা আখৰ অনুমোদিত'),
+    .min(8, 'পাছৱৰ্ড অতি কমেও ৮ টা আখৰৰ হব লাগিব')
+    .max(16, 'সৰ্বাধিক ১৬ টা আখৰ অনুমোদিত'),
   name: yup
     .string()
     .required('নাম প্ৰয়োজনীয়')
@@ -42,7 +42,7 @@ export const signUpValidation = yup.object({
     .string()
     .matches(regExAssamese, asCharValidMsg)
     .required('আপোনাৰ বিষয়ে প্ৰয়োজনীয়')
-    .max(100, 'সৰ্বাধিক 100 টা আখৰ অনুমোদিত'),
+    .max(100, 'সৰ্বাধিক ১০০ টা আখৰ অনুমোদিত'),
 })
 
 export const editProfileValidation = yup.object({
@@ -58,7 +58,7 @@ export const editProfileValidation = yup.object({
     .string()
     .matches(regExAssamese, asCharValidMsg)
     .required('আপোনাৰ বিষয়ে প্ৰয়োজনীয়')
-    .max(100, 'সৰ্বাধিক 100 টা আখৰ অনুমোদিত'),
+    .max(100, 'সৰ্বাধিক ১০০ টা আখৰ অনুমোদিত'),
 })
 
 export const postValidation = yup.object({
@@ -66,19 +66,20 @@ export const postValidation = yup.object({
     .string()
     .matches(regExAssamese, asCharValidMsg)
     .required('শীৰ্ষক প্ৰয়োজনীয়')
-    .max(50, 'শীৰ্ষক 50 টা আখৰতকৈ কম হব লাগিব'),
+    .max(50, 'শীৰ্ষক ৫০ টা আখৰতকৈ কম হব লাগিব'),
   description: yup
     .string()
     .matches(regExAssamese, asCharValidMsg)
-    .max(500, 'বিৱৰণ 500 টা আখৰতকৈ কম হব লাগিব'),
+    .required('বিৱৰণ প্ৰয়োজনীয়')
+    .max(500, 'বিৱৰণ ৫০০ টা আখৰতকৈ কম হব লাগিব'),
   url: yup
     .string()
     .url('URL বৈধ নহয়')
-    .max(200, 'URL 200 টা আখৰতকৈ কম হব লাগিব'),
+    .max(200, 'URL ২০০ টা আখৰতকৈ কম হব লাগিব'),
   catg: yup
     .string()
     .matches(regExAssamese, asCharValidMsg)
-    .max(50, 'শ্ৰেণী 50 টা আখৰতকৈ কম হব লাগিব'),
+    .max(50, 'শ্ৰেণী ৫০ টা আখৰতকৈ কম হব লাগিব'),
 })
 
 export const searchValidation = yup.object({
@@ -88,7 +89,7 @@ export const searchValidation = yup.object({
 export const commentValidation = yup.object({
   comment: yup
     .string()
-    .required('মন্তব্য় প্ৰয়োজনীয়')
+    .required('মন্তব্য প্ৰয়োজনীয়')
     .matches(regExAssamese, asCharValidMsg)
     .max(200, 'সৰ্বাধিক ২০০ টা আখৰ অনুমোদিত'),
 })

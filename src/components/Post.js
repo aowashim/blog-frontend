@@ -1,5 +1,18 @@
-import { Image, ToastAndroid, TouchableOpacity, View } from 'react-native'
-import { Avatar, Divider, Headline, Paragraph, Text } from 'react-native-paper'
+import {
+  Image,
+  Pressable,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import {
+  Avatar,
+  Divider,
+  Headline,
+  Paragraph,
+  Subheading,
+  Text,
+} from 'react-native-paper'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import UserContext from '../store/UserContext'
 import { useContext, useEffect } from 'react'
@@ -22,19 +35,6 @@ const Post = props => {
       uname,
       name: props.item.name,
     })
-
-    // if (props.home) {
-    //   if (userInfo.uname === props.item.userName) {
-    //     props.navigation.navigate('Profile')
-    //   } else {
-    //     props.navigation.navigate('ViewProfile', {
-    //       uname: props.item.userName,
-    //       name: props.item.name,
-    //     })
-    //   }
-    // } else {
-    //   props.navigation.pop()
-    // }
   }
 
   return (
@@ -46,7 +46,7 @@ const Post = props => {
         paddingBottom: 10,
       }}
     >
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', marginBottom: 4 }}>
         <TouchableOpacity
           activeOpacity={0.8}
           style={{
@@ -102,22 +102,32 @@ const Post = props => {
         </TouchableOpacity>
       </View>
 
-      <Headline>{props.item.title}</Headline>
-      <Paragraph>{props.item.description}</Paragraph>
+      <Pressable
+        style={{ marginBottom: 10 }}
+        onPress={() =>
+          props.navigation.push('SinglePost', {
+            pid: props.item.pid,
+            title: props.item.title,
+          })
+        }
+      >
+        {/* <View style={{ marginLeft: 5 }}> */}
+        <Text style={{ fontSize: 20 }}>{props.item.title}</Text>
+        <Paragraph>{props.item.description}</Paragraph>
+        {/* </View> */}
 
-      {Boolean(props.item.image?.length) && (
-        <Image
-          style={{ height: 300, width: '100%' }}
-          source={{
-            uri: props.item.image,
-          }}
-          resizeMode='contain'
-        />
-      )}
+        {Boolean(props.item.image?.length) && (
+          <Image
+            style={{ height: 300, width: '100%' }}
+            source={{
+              uri: props.item.image,
+            }}
+            resizeMode='contain'
+          />
+        )}
+      </Pressable>
 
-      <Divider
-        style={{ backgroundColor: 'grey', marginBottom: 5, marginTop: 10 }}
-      />
+      <Divider style={{ backgroundColor: 'grey' }} />
     </View>
   )
 }

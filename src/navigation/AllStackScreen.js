@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { useContext } from 'react'
+import Comments from '../screens/Comments'
 import CreateComment from '../screens/CreateComment'
 import Followers from '../screens/Followers'
 import Posts from '../screens/Posts'
@@ -55,7 +56,14 @@ const AllStackScreen = props => {
         name='CreateComment'
         component={CreateComment}
         options={{
-          title: 'মন্তব্য়',
+          title: 'মন্তব্য',
+        }}
+      />
+      <AllStack.Screen
+        name='ViewComments'
+        component={Comments}
+        options={{
+          title: 'পূৰ্বৰ মন্তব্যসমূহ',
         }}
       />
     </AllStack.Navigator>

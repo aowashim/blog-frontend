@@ -1,17 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
-import { Button, Text } from 'react-native-paper'
+import { View, StyleSheet, FlatList } from 'react-native'
 import Bookmark from '../components/Bookmark'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
-import {
-  addBookMark,
-  getAllPost,
-  getBookmarks,
-  getSinglePost,
-  getUserPosts,
-  rmvBookMark,
-} from '../helpers/callApi'
+import NotResults from '../components/NotResults'
+import { getBookmarks } from '../helpers/callApi'
 import { MAX_ID } from '../helpers/constants'
 import UserContext from '../store/UserContext'
 
@@ -22,6 +15,7 @@ const Bookmarks = props => {
   const last = useRef(MAX_ID)
   const [refresh, setRefresh] = useState(false)
   const { userInfo } = useContext(UserContext)
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     handleNewBookmarks()
@@ -37,8 +31,8 @@ const Bookmarks = props => {
 
       setRefresh(!refresh)
     } else {
+      setNotFound(true)
       // more.current = false
-      setRefresh(!refresh)
     }
   }
 
@@ -115,7 +109,9 @@ const Bookmarks = props => {
     return <Bookmark item={itemData.item} handleViewPost={handleViewPost} />
   }
 
-  return bookmarks.current.length ? (
+  return notFound ? (
+    <NotResults />
+  ) : bookmarks.current.length ? (
     <View style={styles.container}>
       <FlatList
         data={bookmarks.current}

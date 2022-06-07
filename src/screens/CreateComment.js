@@ -20,15 +20,12 @@ const CreateComment = props => {
 
     const res = await createComment(
       {
-        name: props.route.params.name,
         pid: props.route.params.pid,
         content,
         cdate,
       },
       userInfo.token
     )
-
-    console.log(res)
 
     ToastAndroid.show('Comment created successfully.', ToastAndroid.LONG)
     setPosting(false)
@@ -59,8 +56,8 @@ const CreateComment = props => {
           <View>
             <View style={{ ...globalStyles.textIn, marginTop: 20 }}>
               <TextInput
-                label='মন্তব্য়'
-                placeholder='এটা মন্তব্য় লিখক ...'
+                label='মন্তব্য'
+                placeholder='এটা মন্তব্য লিখক ...'
                 onChangeText={handleChange('comment')}
                 onBlur={handleBlur('comment')}
                 value={values.comment}
