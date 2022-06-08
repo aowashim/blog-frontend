@@ -8,6 +8,7 @@ import Loading from '../components/Loading'
 import { useContext, useState } from 'react'
 import { storeData } from '../helpers/asyncStorage'
 import UserContext from '../store/UserContext'
+import { ErrorMsg } from '../helpers/constants'
 
 const SignIn = props => {
   const [signingIn, setSigningIn] = useState(false)
@@ -24,13 +25,10 @@ const SignIn = props => {
       setUserInfo({ ...res.data, user: true })
     } else if (res.status === 400) {
       setSigningIn(false)
-      ToastAndroid.show('Invalid username or password', ToastAndroid.LONG)
+      ToastAndroid.show('অবৈধ username বা পাছৱাৰ্ড', ToastAndroid.LONG)
     } else {
       setSigningIn(false)
-      ToastAndroid.show(
-        'An error occurred, please try again',
-        ToastAndroid.LONG
-      )
+      ToastAndroid.show(ErrorMsg, ToastAndroid.LONG)
     }
   }
 

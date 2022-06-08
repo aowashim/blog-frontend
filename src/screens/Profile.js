@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, ToastAndroid, View } from 'react-native'
 import { Avatar, Button, Divider, Text } from 'react-native-paper'
 import Loading from '../components/Loading'
 import { removeValue } from '../helpers/asyncStorage'
@@ -7,6 +7,7 @@ import { addFollowing, getUserInfo, removeFollowing } from '../helpers/callApi'
 import { globalStyles } from '../helpers/globalStyles'
 import UserContext from '../store/UserContext'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { LoginRequestMsg } from '../helpers/constants'
 
 const Profile = ({ route, navigation }) => {
   const { userInfo, setUserInfo } = useContext(UserContext)
@@ -44,6 +45,11 @@ const Profile = ({ route, navigation }) => {
   }
 
   const handleFollow = async () => {
+    if (!userInfo.user) {
+      ToastAndroid.show(LoginRequestMsg, ToastAndroid.LONG)
+      return
+    }
+
     if (userData.current.fname) {
       const res = await removeFollowing(
         userInfo.token,

@@ -44,7 +44,7 @@ const CreatePost = props => {
       userInfo.token
     )
 
-    ToastAndroid.show('Post created successfully.', ToastAndroid.LONG)
+    ToastAndroid.show('পোষ্ট সফলতাৰে সৃষ্টি কৰা হৈছে', ToastAndroid.LONG)
     setPosting(false)
     props.navigation.goBack()
   }

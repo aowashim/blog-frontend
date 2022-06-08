@@ -7,7 +7,7 @@ import Loading from '../components/Loading'
 import NotResults from '../components/NotResults'
 import { getSearchUser } from '../helpers/Api/search'
 import { getFollowers, getFollowing } from '../helpers/callApi'
-import { MAX_ID } from '../helpers/constants'
+import { MAX_ID, OwnProfileVisitMsg } from '../helpers/constants'
 import UserContext from '../store/UserContext'
 
 const Followers = props => {
@@ -53,10 +53,7 @@ const Followers = props => {
 
   const handleFollowerProfile = async (uname, name) => {
     if (uname === userInfo.uname) {
-      ToastAndroid.show(
-        'Please visit profile tab to access your own profile.',
-        ToastAndroid.LONG
-      )
+      ToastAndroid.show(OwnProfileVisitMsg, ToastAndroid.LONG)
       return
     }
 

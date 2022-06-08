@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { ToastAndroid, TouchableOpacity, View } from 'react-native'
 import { Avatar, Divider, Paragraph, Text } from 'react-native-paper'
+import { OwnProfileVisitMsg } from '../helpers/constants'
 import UserContext from '../store/UserContext'
 
 const Comment = props => {
@@ -10,10 +11,7 @@ const Comment = props => {
     const uname = props.item.uname.toLowerCase()
 
     if (uname === userInfo.uname.toLowerCase()) {
-      ToastAndroid.show(
-        'Please visit profile tab to access your own profile.',
-        ToastAndroid.LONG
-      )
+      ToastAndroid.show(OwnProfileVisitMsg, ToastAndroid.LONG)
       return
     }
 

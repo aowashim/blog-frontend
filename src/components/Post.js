@@ -5,17 +5,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import {
-  Avatar,
-  Divider,
-  Headline,
-  Paragraph,
-  Subheading,
-  Text,
-} from 'react-native-paper'
+import { Avatar, Divider, Paragraph, Text } from 'react-native-paper'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import UserContext from '../store/UserContext'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
+import { LoginRequestMsg, OwnProfileVisitMsg } from '../helpers/constants'
 
 const Post = props => {
   const { userInfo } = useContext(UserContext)
@@ -24,10 +18,7 @@ const Post = props => {
     const uname = props.item.userName
 
     if (uname === userInfo.uname) {
-      ToastAndroid.show(
-        'Please visit profile tab to access your own profile.',
-        ToastAndroid.LONG
-      )
+      ToastAndroid.show(OwnProfileVisitMsg, ToastAndroid.LONG)
       return
     }
 
@@ -35,6 +26,15 @@ const Post = props => {
       uname,
       name: props.item.name,
     })
+  }
+
+  const handleSinglePost = () => {
+    if (!userInfo.user) ToastAndroid.show(LoginRequestMsg, ToastAndroid.LONG)
+    else
+      props.navigation.push('SinglePost', {
+        pid: props.item.pid,
+        title: props.item.title,
+      })
   }
 
   return (
@@ -102,19 +102,9 @@ const Post = props => {
         </TouchableOpacity>
       </View>
 
-      <Pressable
-        style={{ marginBottom: 10 }}
-        onPress={() =>
-          props.navigation.push('SinglePost', {
-            pid: props.item.pid,
-            title: props.item.title,
-          })
-        }
-      >
-        {/* <View style={{ marginLeft: 5 }}> */}
+      <Pressable style={{ marginBottom: 10 }} onPress={handleSinglePost}>
         <Text style={{ fontSize: 20 }}>{props.item.title}</Text>
         <Paragraph>{props.item.description}</Paragraph>
-        {/* </View> */}
 
         {Boolean(props.item.image?.length) && (
           <Image

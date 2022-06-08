@@ -1,6 +1,6 @@
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
-import { FAB, Text } from 'react-native-paper'
+import { FAB } from 'react-native-paper'
 import HomeHeader from '../components/HomeHeader'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
@@ -15,7 +15,7 @@ import {
   getUserPosts,
   rmvBookMark,
 } from '../helpers/callApi'
-import { MAX_ID } from '../helpers/constants'
+import { LoginRequestMsg, MAX_ID } from '../helpers/constants'
 import UserContext from '../store/UserContext'
 
 const Posts = props => {
@@ -44,7 +44,7 @@ const Posts = props => {
       }
     } else {
       if (!userInfo.user) {
-        ToastAndroid.show('Please login to filter posts.', ToastAndroid.SHORT)
+        ToastAndroid.show(LoginRequestMsg, ToastAndroid.SHORT)
         setShowModal(false)
       } else if (fromAll) {
         morePost.current = true
@@ -171,7 +171,7 @@ const Posts = props => {
         }
       }
     } else {
-      ToastAndroid.show('Please sign in to bookmark', ToastAndroid.LONG)
+      ToastAndroid.show(LoginRequestMsg, ToastAndroid.LONG)
     }
   }
 
@@ -238,6 +238,8 @@ const Posts = props => {
   ) : (
     <Loading txt='Getting posts...' />
   )
+
+  // return <Loading txt='Getting posts...' />
 }
 
 const styles = StyleSheet.create({

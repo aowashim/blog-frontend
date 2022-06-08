@@ -5,6 +5,7 @@ import { Button } from 'react-native-paper'
 import Loading from '../components/Loading'
 import Post from '../components/Post'
 import { addBookMark, getSinglePost, rmvBookMark } from '../helpers/callApi'
+import { LoginRequestMsg } from '../helpers/constants'
 import UserContext from '../store/UserContext'
 
 const SinglePost = props => {
@@ -40,7 +41,7 @@ const SinglePost = props => {
         }
       }
     } else {
-      ToastAndroid.show('Please sign in to bookmark', ToastAndroid.LONG)
+      ToastAndroid.show(LoginRequestMsg, ToastAndroid.LONG)
     }
   }
 

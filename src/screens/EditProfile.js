@@ -12,6 +12,7 @@ import Loading from '../components/Loading'
 import UserContext from '../store/UserContext'
 import { storeData } from '../helpers/asyncStorage'
 import { editProfile } from '../helpers/Api/profile'
+import { ErrorMsg } from '../helpers/constants'
 
 const EditProfile = props => {
   const userData = props.route.params.userData
@@ -43,7 +44,7 @@ const EditProfile = props => {
       setSigningUp(false)
       setUserInfo({ ...res.data, token: userInfo.token, user: true })
 
-      ToastAndroid.show('Profile updated successfully...', ToastAndroid.SHORT)
+      ToastAndroid.show('প্ৰফাইল সফলতাৰে সম্পাদন কৰা হৈছে', ToastAndroid.SHORT)
 
       // reseting navigation for profile tab to show updated data
       props.navigation.reset({
@@ -51,10 +52,7 @@ const EditProfile = props => {
         routes: [{ name: 'Profile' }],
       })
     } else {
-      ToastAndroid.show(
-        'An error occurred, please try again',
-        ToastAndroid.LONG
-      )
+      ToastAndroid.show(ErrorMsg, ToastAndroid.LONG)
 
       setSigningUp(false)
     }

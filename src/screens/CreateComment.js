@@ -27,7 +27,7 @@ const CreateComment = props => {
       userInfo.token
     )
 
-    ToastAndroid.show('Comment created successfully.', ToastAndroid.LONG)
+    ToastAndroid.show('মন্তব্য সফল হৈছে', ToastAndroid.LONG)
     setPosting(false)
 
     props.navigation.goBack()
