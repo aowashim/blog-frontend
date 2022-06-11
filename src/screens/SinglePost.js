@@ -51,6 +51,7 @@ const SinglePost = props => {
         <Post
           item={postData.current[0]}
           navigation={props.navigation}
+          route={props.route}
           handleBookMark={handleBookMark}
           home={Boolean(!props.route.params?.un)}
         />

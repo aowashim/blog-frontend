@@ -83,7 +83,7 @@ export const postValidation = yup.object({
 })
 
 export const searchValidation = yup.object({
-  searchQuery: yup.string().required('Query প্ৰয়োজনীয়'),
+  searchQuery: yup.string().required('সন্ধান প্ৰয়োজনীয়'),
 })
 
 export const commentValidation = yup.object({

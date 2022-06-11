@@ -89,8 +89,8 @@ const Search = props => {
           <ScrollView>
             <View style={globalStyles.textIn}>
               <TextInput
-                label='Query'
-                placeholder='Query প্ৰৱিষ্ট কৰক ...'
+                label='সন্ধান'
+                placeholder='কিবা এটা প্ৰৱিষ্ট কৰক ...'
                 onChangeText={handleChange('searchQuery')}
                 onBlur={handleBlur('searchQuery')}
                 value={values.searchQuery}

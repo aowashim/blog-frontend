@@ -10,6 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import UserContext from '../store/UserContext'
 import { useContext } from 'react'
 import { LoginRequestMsg, OwnProfileVisitMsg } from '../helpers/constants'
+import * as Linking from 'expo-linking'
 
 const Post = props => {
   const { userInfo } = useContext(UserContext)
@@ -29,12 +30,18 @@ const Post = props => {
   }
 
   const handleSinglePost = () => {
-    if (!userInfo.user) ToastAndroid.show(LoginRequestMsg, ToastAndroid.LONG)
-    else
-      props.navigation.push('SinglePost', {
-        pid: props.item.pid,
-        title: props.item.title,
-      })
+    if (props.route.name !== 'SinglePost')
+      if (!userInfo.user) ToastAndroid.show(LoginRequestMsg, ToastAndroid.LONG)
+      else
+        props.navigation.push('SinglePost', {
+          pid: props.item.pid,
+          title: props.item.title,
+        })
+  }
+
+  const handleDelete = () => {
+    if (props.route.name !== 'SinglePost')
+      props.show(props.index, props.item.pid, props.item.userName)
   }
 
   return (
@@ -102,20 +109,38 @@ const Post = props => {
         </TouchableOpacity>
       </View>
 
-      <Pressable style={{ marginBottom: 10 }} onPress={handleSinglePost}>
-        <Text style={{ fontSize: 20 }}>{props.item.title}</Text>
-        <Paragraph>{props.item.description}</Paragraph>
+      <View style={{ marginBottom: 10 }}>
+        <Pressable
+          onPress={handleSinglePost}
+          onLongPress={() => handleDelete()}
+        >
+          <Text style={{ fontSize: 16 }}>{props.item.title}</Text>
+          <Paragraph style={{ fontSize: 15 }}>
+            {props.item.description}
+          </Paragraph>
 
-        {Boolean(props.item.image?.length) && (
-          <Image
-            style={{ height: 300, width: '100%' }}
-            source={{
-              uri: props.item.image,
+          {Boolean(props.item.image?.length) && (
+            <Image
+              style={{ height: 300, width: '100%' }}
+              source={{
+                uri: props.item.image,
+              }}
+              resizeMode='contain'
+            />
+          )}
+        </Pressable>
+
+        {Boolean(props.item.url?.length) && (
+          <Text
+            onPress={() => {
+              Linking.openURL(props.item.url)
             }}
-            resizeMode='contain'
-          />
+            style={{ textDecorationLine: 'underline', marginTop: 2 }}
+          >
+            {props.item.url}
+          </Text>
         )}
-      </Pressable>
+      </View>
 
       <Divider style={{ backgroundColor: 'grey' }} />
     </View>

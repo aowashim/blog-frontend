@@ -1,12 +1,14 @@
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native'
 import { FAB } from 'react-native-paper'
+import DeleteModal from '../components/DeleteModal'
 import HomeHeader from '../components/HomeHeader'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
 import NotResults from '../components/NotResults'
 import Post from '../components/Post'
 import SelectModal from '../components/SelectModal'
+import { deletePost } from '../helpers/Api/post'
 import { getSearchPost } from '../helpers/Api/search'
 import {
   addBookMark,
@@ -15,7 +17,7 @@ import {
   getUserPosts,
   rmvBookMark,
 } from '../helpers/callApi'
-import { LoginRequestMsg, MAX_ID } from '../helpers/constants'
+import { ErrorMsg, LoginRequestMsg, MAX_ID } from '../helpers/constants'
 import UserContext from '../store/UserContext'
 
 const Posts = props => {
@@ -23,12 +25,14 @@ const Posts = props => {
   const morePost = useRef(true)
   const [pull, setPull] = useState(false)
   const lastPost = useRef(MAX_ID)
+  const postToDelete = useRef({ idx: -1, pid: -1, uname: 'n' })
   // const fromAll = useRef(true)
   const [refresh, setRefresh] = useState(false)
   const { userInfo } = useContext(UserContext)
   const [showModal, setShowModal] = useState(false)
   const [fromAll, setFromAll] = useState(true)
   const [notFound, setNotFound] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   useEffect(() => {
     handleNewPosts()
@@ -53,6 +57,45 @@ const Posts = props => {
       }
     }
     setShowModal(false)
+  }
+
+  const handleDeletePost = async () => {
+    setShowDeleteModal(false)
+
+    if (userInfo.user) {
+      if (
+        userInfo.uname.toLowerCase() !==
+        postToDelete.current.uname.toLowerCase()
+      ) {
+        ToastAndroid.show(
+          "আপুনি আনৰ প'ষ্ট বিলোপ কৰিব নোৱাৰে",
+          ToastAndroid.SHORT
+        )
+      } else {
+        const status = await deletePost(
+          postToDelete.current.pid,
+          userInfo.token
+        )
+
+        if (status === 200) {
+          posts.current.splice(postToDelete.current.idx, 1)
+          ToastAndroid.show("প'ষ্ট সফলতাৰে বিলোপ কৰা হৈছে", ToastAndroid.SHORT)
+        } else {
+          ToastAndroid.show(ErrorMsg, ToastAndroid.SHORT)
+        }
+      }
+    } else {
+      ToastAndroid.show(LoginRequestMsg, ToastAndroid.SHORT)
+    }
+
+    postToDelete.current = { idx: -1, pid: -1, uname: 'n' }
+  }
+
+  const handleShowDeleteModal = (idx, pid, uname) => {
+    postToDelete.current.idx = idx
+    postToDelete.current.pid = pid
+    postToDelete.current.uname = uname
+    setShowDeleteModal(true)
   }
 
   // customizing Home screen to select post from followers and all
@@ -188,9 +231,11 @@ const Posts = props => {
     return (
       <Post
         item={itemData.item}
+        show={handleShowDeleteModal}
         handleBookMark={handleBookMark}
         index={itemData.index}
         navigation={props.navigation}
+        route={props.route}
         home={Boolean(!props.route.params?.un)}
       />
     )
@@ -233,6 +278,11 @@ const Posts = props => {
         closeModal={() => setShowModal(false)}
         handleViewPost={handleViewPost}
         all={fromAll}
+      />
+      <DeleteModal
+        show={showDeleteModal}
+        closeModal={() => setShowDeleteModal(false)}
+        handleDeletePost={handleDeletePost}
       />
     </View>
   ) : (
