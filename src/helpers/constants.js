@@ -1,4 +1,6 @@
-export const SERVER = 'http://10.55.11.246:5000'
+import { SERVER_URL } from '@env'
+
+export const SERVER = SERVER_URL
 export const MAX_ID = 99999999
 export const SearchCatg = {
   pt: "প'ষ্ট (শীৰ্ষকৰ জৰিয়তে)",

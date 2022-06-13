@@ -79,6 +79,7 @@ const Posts = props => {
 
         if (status === 200) {
           posts.current.splice(postToDelete.current.idx, 1)
+          setRefresh(!refresh)
           ToastAndroid.show("প'ষ্ট সফলতাৰে বিলোপ কৰা হৈছে", ToastAndroid.SHORT)
         } else {
           ToastAndroid.show(ErrorMsg, ToastAndroid.SHORT)
